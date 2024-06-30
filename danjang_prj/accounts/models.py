@@ -13,7 +13,7 @@ def upload_filepath(instance, filename):
 class User(AbstractUser):
     email = models.EmailField(max_length=30, unique=True, null=False, blank=False)
     nickname = models.CharField(max_length=20, unique=True)
-    mypage_image = models.ImageField(upload_to=upload_filepath, blank=True, default='media/default_mypage_image.jpeg')
+    mypage_image = models.ImageField(upload_to=upload_filepath, blank=True, default='media/default_mypage_image.jpg')
     
     def __str__(self):
         return f'{self.username}'

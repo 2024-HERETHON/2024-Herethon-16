@@ -6,22 +6,33 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="{% url 'comming_soon' %}">DANJANG</a><br>
-    검색창<br>
-    <a href="#">포트폴리오</a><br>
-    <a href="{% url 'mypage' %}">마이페이지</a>
-    <hr>
-    username: {{ request.user.username }}<br>
-    프로필 사진: <img width="192" height="192" src="{{ user.mypage_image }}"><br>
-    <a href="#">내 포트폴리오 보기</a>
-    <hr>
-    <a href="#">나의 시청 기록</a>
-    <hr>
-    <a href="#">내가 찜한 콘텐츠</a>
-    <hr>
-    <a href="#">내가 구매한 콘텐츠</a>
+    <!-- nav bar -->
+    <a href="{% url 'comming_soon' %}">DANJANG</a>
+    검색창
+    <a href="#">포트폴리오</a>
+    <a href="{% url 'mypage' %}">내 정보</a>
+    <a href="{% url 'logout' %}">로그아웃</a>
     <hr>
 
+    username: {{ request.user.username }}<br>
+    
+    <form method="POST" action="{% url 'mypage_image_update' user.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% if user.mypage_image %}
+        프로필 사진: <img width="192" height="192" src="{{ user.mypage_image.url }}"><br>
+        {% endif %}
+        이미지 변경 <input type="file" name="mypage_image"><br>
+        <input type="submit" value="수정하기">
+    </form>
+    
+    <a href="{% url 'myportfolio' %}">내 포트폴리오 보기</a>
+    <hr>
+    나의 시청 기록 <a href="{% url 'myviewhistory' %}">모두 보기</a>
+    <hr>
+    내가 찜한 콘텐츠 <a href="{% url 'mylove' %}">모두 보기</a>
+    <hr>
+    내가 구매한 콘텐츠 <a href="{% url 'mypurchase' %}">모두 보기</a>
+    <hr>
     
 </body>
 </html>
