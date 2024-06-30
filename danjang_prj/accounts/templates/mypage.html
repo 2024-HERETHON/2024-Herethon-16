@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="{% url 'comming_soon' %}">DANJANG</a><br>
+    검색창<br>
+    <a href="#">포트폴리오</a><br>
+    <a href="{% url 'mypage' %}">마이페이지</a>
+    <hr>
+    username: {{ request.user.username }}<br>
+    프로필 사진: <img width="192" height="192" src="{{ user.mypage_image }}"><br>
+    <a href="#">내 포트폴리오 보기</a>
+    <hr>
+    <a href="#">나의 시청 기록</a>
+    <hr>
+    <a href="#">내가 찜한 콘텐츠</a>
+    <hr>
+    <a href="#">내가 구매한 콘텐츠</a>
+    <hr>
+
+    
+</body>
+</html>
