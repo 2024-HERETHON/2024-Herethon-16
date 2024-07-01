@@ -7,14 +7,17 @@
 </head>
 <body>
     <!-- nav bar -->
-    <a href="{% url 'comming_soon' %}">DANJANG</a>
+    <a href="{% url 'accounts:comming_soon' %}">DANJANG</a>
     검색창
     <a href="#">포트폴리오</a>
-    <a href="{% url 'mypage' %}">내 정보</a>
-    <a href="{% url 'logout' %}">로그아웃</a>
+    <a href="{% url 'accounts:mypage' %}">내 정보</a>
+    <a href="{% url 'accounts:logout' %}">로그아웃</a>
     <hr>
+    <form method="POST">
+    {% csrf_token %}
     profile image<br>
-    role | name<br>
+    role<br>
+    <input type="text" value="{{ myportfolio.name }}" name="name" id="name"><br>
     one_line<br>
     email<br>
     <hr>
@@ -25,6 +28,7 @@
     <textarea></textarea>
     <hr>
     사진/영상
+    <input type="submit" value="수정 완료" />
     </form>
 </body>
 </html>
