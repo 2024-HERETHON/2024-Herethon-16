@@ -106,13 +106,15 @@ def update_myportfolio(request):
         role_ids = request.POST.getlist('role')
         role_list = [get_object_or_404(Role, id=role_id) for role_id in role_ids]
         myportfolio.role.set(role_list)
-
-        #이미지
+        #프로필 이미지
+        profile_photo = request.FILES.get('profile_photo')
         myportfolio.email = request.POST.get('email')
         myportfolio.one_line = request.POST.get('one_line')
         myportfolio.intro = request.POST.get('intro')
 
-
+        if profile_photo:
+            myportfolio.profile_photo.delete()
+            myportfolio.profile_photo = profile_photo
 
         myportfolio.save()
         return redirect('accounts:update_myportfolio')
