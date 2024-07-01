@@ -24,8 +24,13 @@
         이미지 변경 <input type="file" name="mypage_image"><br>
         <input type="submit" value="수정하기">
     </form>
-    <a href="{% url 'accounts:create_myportfolio' %}">포트폴리오 만들기</a>
+    {% if myportfolio.id %}
     <a href="{% url 'accounts:update_myportfolio' %}">내 포트폴리오 보기</a>
+    {% else %}
+    <a href="{% url 'accounts:create_myportfolio' %}">포트폴리오 만들기</a>
+    {% endif %}
+    
+    
     <hr>
     나의 시청 기록 <a href="{% url 'accounts:myviewhistory' %}">모두 보기</a>
     <hr>

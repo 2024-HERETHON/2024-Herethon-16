@@ -39,7 +39,11 @@ def logout_view(request):
     return redirect('accounts:index')
 
 def mypage(request):
-    return render(request, 'accounts/mypage.html')
+    try:
+        myportfolio = Portfolio.objects.get(user=request.user)
+        return render(request, 'accounts/mypage.html', {'myportfolio' : myportfolio})
+    except Portfolio.DoesNotExist:
+        return render(request, 'accounts/mypage.html')
 
 def mypage_image_update(request, id):
     User = get_user_model()
