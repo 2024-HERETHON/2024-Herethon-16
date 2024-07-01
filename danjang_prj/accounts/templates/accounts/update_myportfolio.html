@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,21 +14,27 @@
     <a href="{% url 'accounts:mypage' %}">내 정보</a>
     <a href="{% url 'accounts:logout' %}">로그아웃</a>
     <hr>
-    <form method="POST">
+    <form method="POST" action="{% url 'accounts:update_myportfolio' %}">
     {% csrf_token %}
-    profile image<br>
-    role<br>
-    <input type="text" value="{{ myportfolio.name }}" name="name" id="name"><br>
-    one_line<br>
-    email<br>
+    이름: <input type="text" value="{{ myportfolio.name }}" name="name" id="name"><br>
+    전문 분야:
+    {% for role in myportfolio.role.all %}
+    {{ role.name }}
+    {% endfor %}
+    <select name="role">
+        {% for role in roles %}
+        <option value="{{ role.id }}">{{ role.name }}</option>
+        {% endfor %}
+    </select><br>
+    이미지<br>
+    이메일: <input type="text" value="{{ myportfolio.email }}" name="email" id="email"><br>
+    한줄 소개: <input type="text" value="{{ myportfolio.one_line }}" name="one_line" id="one_line"><br>
+    소개 글: <input type="text" value="{{ myportfolio.intro }}" name="intro" id="intro"><br>
     <hr>
     경력<br>
     tabel<br>
     <hr>
-    소개 글<br>
-    <textarea></textarea>
-    <hr>
-    사진/영상
+    사진/영상<br>
     <input type="submit" value="수정 완료" />
     </form>
 </body>

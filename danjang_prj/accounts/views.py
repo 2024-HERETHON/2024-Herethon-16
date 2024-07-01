@@ -97,13 +97,25 @@ def create_my_career(request, portfolio_id):
 def update_myportfolio(request):
     if request.method == "GET":
         myportfolio = Portfolio.objects.get(user=request.user)
-        return render(request, 'accounts/update_myportfolio.html', {'myportfolio': myportfolio})
+        roles = Role.objects.all()
+        return render(request, 'accounts/update_myportfolio.html', {'myportfolio': myportfolio, 'roles': roles})
     elif request.method == "POST":
         myportfolio = Portfolio.objects.get(user=request.user)
-        myportfolio.name = request.POST['name']
+        myportfolio.name = request.POST.get('name')
+        #전문 분야
+        role_ids = request.POST.getlist('role')
+        role_list = [get_object_or_404(Role, id=role_id) for role_id in role_ids]
+        myportfolio.role.set(role_list)
+
+        #이미지
+        myportfolio.email = request.POST.get('email')
+        myportfolio.one_line = request.POST.get('one_line')
+        myportfolio.intro = request.POST.get('intro')
+
+
 
         myportfolio.save()
-        return redirect('accounts:update_myportfolio', id)
+        return redirect('accounts:update_myportfolio')
     
 
 def mylove(request):
