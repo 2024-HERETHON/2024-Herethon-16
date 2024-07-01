@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import *
 from .models import *
 from django.contrib.auth.forms import AuthenticationForm
@@ -55,7 +55,7 @@ def mypage_image_update(request, id):
         return redirect('mypage')
     return render(request, 'mypage.html', {'user' : user})
 
-def myportfolio(request):
+def myportfolio(request):  
     return render(request, 'myportfolio.html')
 
 def mylove(request):
