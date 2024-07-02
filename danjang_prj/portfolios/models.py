@@ -55,7 +55,7 @@ class Career(models.Model): # 경력
     career_role = models.CharField(verbose_name="역할", max_length=128)
     career_year = models.IntegerField(verbose_name="연도", default=2024, null=True)
     portfolio = models.ForeignKey(to = Portfolio, on_delete=models.CASCADE, related_name="careers")
-    author = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="careers")
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="careers")
 
 class Video(models.Model): # 포트폴리오 video
     user = models.ForeignKey(to = User, on_delete=models.CASCADE, related_name='videos')
