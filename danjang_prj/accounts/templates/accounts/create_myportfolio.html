@@ -20,41 +20,5 @@
         소개 글: <input type="text" name="intro"><br>
         <input type="submit" value="포트폴리오 등록">   
     </form>
-    <hr>
-<!--
-    경력사항<br>
-    <table>
-        <thead>
-            <tr>
-                <th>경력</th>
-                <th>역할</th>
-                <th>연도</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% csrf_token %}
-            {% for career in portfolio.careers.all %}
-            <tr>
-                <td>{{ career.career_title }}</td>
-                <td>{{ career.career_role }}</td>
-                <td>{{ career.career_year }}</td>
-                <td>
-                    <a href="#">빼기</a>
-                </td>
-            </tr>
-            {% endfor %}
-            <form method="POST" action="#">
-                {% csrf_token %}
-                <tr>
-                    <td><input type="text" name="career_title"></td>
-                    <td><input type="text" name="career_role"></td>
-                    <td><input type="text" name="career_year"></td>
-                </tr>
-                <input type="submit" value="추가">
-            </form>
-        </tbody>
-    </table>
--->
-<a href="{% url 'accounts:create_my_video_photo' %}">사진/영상</a>
 </body>
 </html>

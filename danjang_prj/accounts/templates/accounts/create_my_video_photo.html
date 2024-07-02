@@ -6,7 +6,6 @@
     <title>Document</title>
 </head>
 <body>
-    사진이나 동영상 둘 중 하나만 업로드
     <hr>
     <form method="POST" action="{% url 'accounts:create_my_video_photo' %}" enctype="multipart/form-data">
         {% csrf_token %}

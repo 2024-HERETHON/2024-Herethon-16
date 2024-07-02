@@ -85,19 +85,24 @@ def create_myportfolio(request):
 
         return redirect('accounts:mypage')
     return render(request, 'accounts/create_myportfolio.html', {'roles' : roles})
-""" 경력사항 보류
-def create_my_career(request, portfolio_id):
-    portfolio = get_object_or_404(Portfolio, id=portfolio_id)
-    if request.method == "POST":
+
+def create_my_career(request):
+    if request.method == 'POST':
         Career.objects.create(
+            user=request.user,
+            portfolio=Portfolio.objects.get(user=request.user),
             career_title = request.POST.get('career_title'),
             career_role = request.POST.get('career_role'),
-            career_year = request.POST.get('career-year'),
-            portfolio = portfolio,
-            author = request.user,
+            career_year = request.POST.get('career_year'),
         )
-        return redirect('accounts:create_myportfolio', portfolio_id)
-"""
+        return redirect('accounts:update_myportfolio')
+    return render(request, 'accounts:update_myportfolio.html')
+
+def delete_my_career(request, id):
+    my_career = get_object_or_404(Career, id = id)
+    my_career.delete()
+    return redirect('accounts:update_myportfolio')
+
 def update_myportfolio(request):
     if request.method == "GET":
         myportfolio = Portfolio.objects.get(user=request.user)
@@ -108,7 +113,9 @@ def update_myportfolio(request):
         videos = Video.objects.filter(portfolio__user=request.user)
         posts = list(photos) + list(videos)  # 두 쿼리셋을 합칩니다.
 
-        return render(request, 'accounts/update_myportfolio.html', {'myportfolio': myportfolio, 'roles': roles, 'posts':posts})
+        careers = Career.objects.filter(portfolio__user=request.user)
+
+        return render(request, 'accounts/update_myportfolio.html', {'myportfolio': myportfolio, 'roles': roles, 'posts':posts, 'careers':careers})
     elif request.method == "POST":
         myportfolio = Portfolio.objects.get(user=request.user)
         myportfolio.name = request.POST.get('name')
@@ -154,12 +161,14 @@ def create_my_video_photo(request):
         return redirect('accounts:update_myportfolio')
     return render(request, 'accounts/create_my_video_photo.html')
 
-def delete_my_video_photo(request, id):
-    photo = get_object_or_404(Photo, id = id)
-    photo.delete()
-
+def delete_my_video(request, id):
     video = get_object_or_404(Video, id = id)
     video.delete()
+    return redirect('accounts:update_myportfolio')
+
+def delete_my_photo(request, id):
+    photo = get_object_or_404(Photo, id = id)
+    photo.delete()
     return redirect('accounts:update_myportfolio')
 
 def mylove(request):
