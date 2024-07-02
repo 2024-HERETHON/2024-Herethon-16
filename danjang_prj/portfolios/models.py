@@ -66,7 +66,7 @@ class Video(models.Model): # 포트폴리오 video
     keyword = models.TextField(verbose_name="키워드", blank=True)
     synopsis = models.TextField(verbose_name="시놉시스", blank=True)
     video = models.FileField(verbose_name="동영상", upload_to=upload_filepath, blank=True)
-    myurl = models.URLField(max_length=200, blank=True, null=True)
+    myurl = models.URLField(blank=True, null=True)
     portfolio = models.ForeignKey(to = Portfolio, on_delete=models.CASCADE, related_name="videos")
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
