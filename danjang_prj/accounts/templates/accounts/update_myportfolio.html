@@ -43,11 +43,21 @@
     <a href="{% url 'accounts:create_my_video_photo' %}">사진/영상</a><br>
     {% if posts %}
     사진<br>
-    {% for post in posts %}
-        {% if post.photo %}
+        {% for post in posts %}
+            {% if post.photo %}
             <img width="320" height="320" src="{{ post.photo.url }}">
-        {% endif %}
-    {% endfor %}
+            {% endif %}
+        {% endfor %}
+    <hr>    
+    <hr>
+    동영상<br>
+        {% for post in posts %}
+            {% if post.video %}
+            <video width="320" height="240" controls>
+                <source src="{{ post.video.url }}" type="video/mp4">
+            </video>
+            {% endif %}
+        {% endfor %}
     {% endif %}
 </body>
 </html>

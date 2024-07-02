@@ -102,7 +102,12 @@ def update_myportfolio(request):
     if request.method == "GET":
         myportfolio = Portfolio.objects.get(user=request.user)
         roles = Role.objects.all()
-        posts = Photo.objects.all()
+
+        # 사용자의 포트폴리오에 해당하는 모든 사진과 동영상을 가져옵니다.
+        photos = Photo.objects.filter(portfolio__user=request.user)
+        videos = Video.objects.filter(portfolio__user=request.user)
+        posts = list(photos) + list(videos)  # 두 쿼리셋을 합칩니다.
+
         return render(request, 'accounts/update_myportfolio.html', {'myportfolio': myportfolio, 'roles': roles, 'posts':posts})
     elif request.method == "POST":
         myportfolio = Portfolio.objects.get(user=request.user)
@@ -131,7 +136,20 @@ def create_my_video_photo(request):
             Photo.objects.create(
                 user=request.user,
                 photo=photo,
-                portfolio=Portfolio.objects.get(user=request.user)
+                portfolio=Portfolio.objects.get(user=request.user),
+            )
+
+        video = request.FILES.get('video')
+        if video:
+            Video.objects.create(
+                user=request.user,
+                video=video,
+                portfolio=Portfolio.objects.get(user=request.user),
+                title=request.POST.get('title'),
+                cast=request.POST.get('cast'),
+                staff=request.POST.get('staff'),
+                keyword=request.POST.get('keyword'),
+                synopsis=request.POST.get('synopsis'),
             )
         return redirect('accounts:update_myportfolio')
     return render(request, 'accounts/create_my_video_photo.html')

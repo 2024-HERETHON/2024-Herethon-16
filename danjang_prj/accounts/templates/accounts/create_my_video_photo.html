@@ -6,9 +6,18 @@
     <title>Document</title>
 </head>
 <body>
+    사진이나 동영상 둘 중 하나만 업로드
+    <hr>
     <form method="POST" action="{% url 'accounts:create_my_video_photo' %}" enctype="multipart/form-data">
         {% csrf_token %}
         사진 - <input type="file" name="photo"><br><br>
+        <hr>
+        동영상 - <input type="file" name="video"><br>
+        이름: <input type="text" name="title"><br>
+        출연진: <input type="text" name="cast"><br>
+        스탭: <input type="text" name="staff"><br>
+        키워드: <input type="text" name="keyword"><br>
+        시놉시스: <input type="text" name="synopsis"><br>
         <input type="submit" value="업로드하기" />
     </form>
 </body>
