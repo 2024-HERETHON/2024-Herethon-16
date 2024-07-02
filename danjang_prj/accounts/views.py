@@ -154,6 +154,14 @@ def create_my_video_photo(request):
         return redirect('accounts:update_myportfolio')
     return render(request, 'accounts/create_my_video_photo.html')
 
+def delete_my_video_photo(request, id):
+    photo = get_object_or_404(Photo, id = id)
+    photo.delete()
+
+    video = get_object_or_404(Video, id = id)
+    video.delete()
+    return redirect('accounts:update_myportfolio')
+
 def mylove(request):
     return render(request, 'accounts/mylove.html')
 
