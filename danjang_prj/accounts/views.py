@@ -123,6 +123,8 @@ def update_myportfolio(request):
         myportfolio.save()
         return redirect('accounts:update_myportfolio')
     
+def create_my_video_photo(request):
+    return render(request, 'accounts/create_my_video_photo.html')
 
 def mylove(request):
     return render(request, 'accounts/mylove.html')

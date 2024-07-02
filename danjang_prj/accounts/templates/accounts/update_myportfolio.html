@@ -34,12 +34,13 @@
     이메일: <input type="text" value="{{ myportfolio.email }}" name="email" id="email"><br>
     한줄 소개: <input type="text" value="{{ myportfolio.one_line }}" name="one_line" id="one_line"><br>
     소개 글: <input type="text" value="{{ myportfolio.intro }}" name="intro" id="intro"><br>
+    <input type="submit" value="수정 완료" />
+    </form>
     <hr>
     경력<br>
     tabel<br>
     <hr>
-    사진/영상<br>
-    <input type="submit" value="수정 완료" />
-    </form>
+    <a href="{% url 'accounts:create_my_video_photo' %}">사진/영상</a><br>
+
 </body>
 </html>

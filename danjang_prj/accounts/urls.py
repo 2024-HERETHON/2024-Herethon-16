@@ -15,6 +15,8 @@ urlpatterns = [
     path('create_myportfolio/', create_myportfolio, name="create_myportfolio"),
     path('update_myportfolio/', update_myportfolio, name="update_myportfolio"),
     #path('create_my_career/<int:portfolio_id>/', create_my_career, name='create_my_career'),
+    # 사진 및 영상 업로드
+    path('create_my_video_photo/', create_my_video_photo, name="create_my_video_photo"),
     path('mylove/', mylove, name="mylove"),
     path('myviewhistory/', myviewhistory, name="myviewhistory"),
     path('mypurchase/', mypurchase, name="mypurchase"),
