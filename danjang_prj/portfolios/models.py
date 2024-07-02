@@ -53,7 +53,7 @@ class PortfolioRole(models.Model):
 class Career(models.Model): # 경력
     career_title = models.CharField(verbose_name="작품명", max_length=128)   
     career_role = models.CharField(verbose_name="역할", max_length=128)
-    career_year = models.DateField(verbose_name="연도")
+    career_year = models.IntegerField(verbose_name="연도", default=2024, null=True)
     portfolio = models.ForeignKey(to = Portfolio, on_delete=models.CASCADE, related_name="careers")
     author = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="careers")
 
