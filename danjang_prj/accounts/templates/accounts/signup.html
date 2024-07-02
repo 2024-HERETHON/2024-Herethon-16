@@ -6,14 +6,12 @@
     <title>Document</title>
   </head>
   <body>
-    <h2>로그인</h2>
-    <form method="post" action="{% url 'login' %}">
+    <h2>회원가입</h2>
+    <!-- 나중에 accounts:signup으로 -->
+    <form method="post" action="{% url 'accounts:signup' %}">
       {% csrf_token %}
       {{ form.as_p }}
-      <button type="submit">로그인</button>
+      <button type="submit">회원가입</button>
     </form>
-    <p>
-      <a href="{% url 'signup' %}">회원가입</a>
-    </p>
   </body>
 </html>

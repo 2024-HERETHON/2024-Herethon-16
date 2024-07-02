@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- nav bar -->
+    <a href="{% url 'accounts:comming_soon' %}">DANJANG</a>
+    검색창
+    <a href="#">포트폴리오</a>
+    <a href="{% url 'accounts:mypage' %}">내 정보</a>
+    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+    <hr>
+
+    username: {{ request.user.username }}<br>
+    
+    <form method="POST" action="{% url 'accounts:mypage_image_update' user.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% if user.mypage_image %}
+        프로필 사진: <img width="192" height="192" src="{{ user.mypage_image.url }}"><br>
+        {% endif %}
+        이미지 변경 <input type="file" name="mypage_image"><br>
+        <input type="submit" value="수정하기">
+    </form>
+    {% if myportfolio.id %}
+    <a href="{% url 'accounts:update_myportfolio' %}">내 포트폴리오 보기</a>
+    {% else %}
+    <a href="{% url 'accounts:create_myportfolio' %}">포트폴리오 만들기</a>
+    {% endif %}
+    
+    
+    <hr>
+    나의 시청 기록 <a href="{% url 'accounts:myviewhistory' %}">모두 보기</a>
+    <hr>
+    내가 찜한 콘텐츠 <a href="{% url 'accounts:mylove' %}">모두 보기</a>
+    <hr>
+    내가 구매한 콘텐츠 <a href="{% url 'accounts:mypurchase' %}">모두 보기</a>
+    <hr>
+    
+</body>
+</html>

@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- nav bar -->
+    <a href="{% url 'accounts:comming_soon' %}">DANJANG</a>
+    검색창
+    <a href="#">포트폴리오</a>
+    <a href="{% url 'accounts:mypage' %}">내 정보</a>
+    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+    <hr>
+    <form method="POST" action="{% url 'accounts:update_myportfolio' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    이름: <input type="text" value="{{ myportfolio.name }}" name="name" id="name"><br>
+    전문 분야:
+    {% for role in myportfolio.role.all %}
+    {{ role.name }}
+    {% endfor %}
+    <select name="role">
+        {% for role in roles %}
+        <option value="{{ role.id }}">{{ role.name }}</option>
+        {% endfor %}
+    </select><br>
+    {% if myportfolio.profile_photo %}
+    기존 이미지 : <img width="320" height="240" src="{{ myportfolio.profile_photo.url }}"><br><br>
+    {% endif %}
+    이미지 변경 - <input type="file" name="profile_photo"><br>
+
+    이메일: <input type="text" value="{{ myportfolio.email }}" name="email" id="email"><br>
+    한줄 소개: <input type="text" value="{{ myportfolio.one_line }}" name="one_line" id="one_line"><br>
+    소개 글: <input type="text" value="{{ myportfolio.intro }}" name="intro" id="intro"><br>
+    <input type="submit" value="수정 완료" />
+    </form>
+    <hr>
+    경력<br>
+    tabel<br>
+    <hr>
+    <a href="{% url 'accounts:create_my_video_photo' %}">사진/영상</a><br>
+
+</body>
+</html>
