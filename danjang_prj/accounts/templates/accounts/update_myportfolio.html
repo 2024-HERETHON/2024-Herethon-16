@@ -37,8 +37,40 @@
     <input type="submit" value="수정 완료" />
     </form>
     <hr>
-    경력<br>
-    tabel<br>
+    경력사항<br>
+    <table>
+        <thead>
+            <tr>
+                <th>경력</th>
+                <th>역할</th>
+                <th>연도</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% csrf_token %}
+            {% for career in portfolio.careers.all %}
+            <tr>
+                <td>{{ career.career_title }}</td>
+                <td>{{ career.career_role }}</td>
+                <td>{{ career.career_year }}</td>
+                <td>
+                    <a href="#">빼기</a>
+                </td>
+            </tr>
+            {% endfor %}
+            <form method="POST" action="{% url 'accounts:create_my_career' user.id %}">
+                {% csrf_token %}
+                <td>
+                    <td><input type="text" name="career_title"></td>
+                    <td><input type="text" name="career_role"></td>
+                    <td><input type="number" name="career_year" min="1000" max="2999"></td>
+                    <td><input type="submit" value="추가"></td>
+                </tr>
+                
+               
+            </form>
+        </tbody>
+    </table>
     <hr>
     <a href="{% url 'accounts:create_my_video_photo' %}">사진/영상</a><br>
 
