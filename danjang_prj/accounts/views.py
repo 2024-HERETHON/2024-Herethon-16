@@ -22,7 +22,7 @@ def signup_view(request):
         return redirect('accounts:index')
     else:
         return render(request, 'accounts/signup.html', {'form' : form})
-        
+
 def login_view(request):
     if request.method == "GET":
         return render(request, 'accounts/login.html', {'form' : AuthenticationForm})
@@ -85,24 +85,25 @@ def create_myportfolio(request):
 
         return redirect('accounts:mypage')
     return render(request, 'accounts/create_myportfolio.html', {'roles' : roles})
-# 경력사항
-def create_my_career(request, id):
-    portfolio = get_object_or_404(Portfolio, id=id)
+""" 경력사항 보류
+def create_my_career(request, portfolio_id):
+    portfolio = get_object_or_404(Portfolio, id=portfolio_id)
     if request.method == "POST":
         Career.objects.create(
             career_title = request.POST.get('career_title'),
             career_role = request.POST.get('career_role'),
             career_year = request.POST.get('career-year'),
             portfolio = portfolio,
+            author = request.user,
         )
-        return redirect('accounts:update_myportfolio', id)
-    return render(request, 'accounts/update_myportfolio.html')
-
+        return redirect('accounts:create_myportfolio', portfolio_id)
+"""
 def update_myportfolio(request):
     if request.method == "GET":
         myportfolio = Portfolio.objects.get(user=request.user)
         roles = Role.objects.all()
-        return render(request, 'accounts/update_myportfolio.html', {'myportfolio': myportfolio, 'roles': roles})
+        posts = Photo.objects.all()
+        return render(request, 'accounts/update_myportfolio.html', {'myportfolio': myportfolio, 'roles': roles, 'posts':posts})
     elif request.method == "POST":
         myportfolio = Portfolio.objects.get(user=request.user)
         myportfolio.name = request.POST.get('name')
@@ -124,6 +125,15 @@ def update_myportfolio(request):
         return redirect('accounts:update_myportfolio')
     
 def create_my_video_photo(request):
+    if request.method == 'POST':
+        photo = request.FILES.get('photo')
+        if photo:
+            Photo.objects.create(
+                user=request.user,
+                photo=photo,
+                portfolio=Portfolio.objects.get(user=request.user)
+            )
+        return redirect('accounts:update_myportfolio')
     return render(request, 'accounts/create_my_video_photo.html')
 
 def mylove(request):
