@@ -9,7 +9,7 @@
     <!-- nav bar -->
     <a href="{% url 'accounts:comming_soon' %}">DANJANG</a>
     검색창
-    <a href="#">포트폴리오</a>
+    <a href="{% url 'accounts:portfolio_list' %}">포트폴리오</a>
     <a href="{% url 'accounts:mypage' %}">내 정보</a>
     <a href="{% url 'accounts:logout' %}">로그아웃</a>
     <hr>
@@ -35,7 +35,7 @@
     <hr>
     나의 시청 기록 <a href="{% url 'accounts:myviewhistory' %}">모두 보기</a>
     <hr>
-    내가 찜한 콘텐츠 <a href="{% url 'accounts:mylove' %}">모두 보기</a>
+    내가 찜한 콘텐츠 <a href="{% url 'accounts:mylike' %}">모두 보기</a>
     <hr>
     내가 구매한 콘텐츠 <a href="{% url 'accounts:mypurchase' %}">모두 보기</a>
     <hr>

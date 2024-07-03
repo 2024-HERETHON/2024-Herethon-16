@@ -69,6 +69,7 @@ class Video(models.Model): # 포트폴리오 video
     myurl = models.URLField(blank=True, null=True)
     portfolio = models.ForeignKey(to = Portfolio, on_delete=models.CASCADE, related_name="videos")
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    like = models.ManyToManyField(to = User, through="Like", related_name="liked_videos") # 찜
 
     def __str__(self):
         return self.title
@@ -77,3 +78,7 @@ class Photo(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='photos')
     photo = models.ImageField(verbose_name="이미지", blank=True, null=True, upload_to=upload_filepath)
     portfolio = models.ForeignKey(to=Portfolio, on_delete=models.CASCADE, related_name='photos')
+
+class Like(models.Model):
+    video = models.ForeignKey(to=Video, on_delete=models.CASCADE, related_name="video_likes")
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="user_likes")

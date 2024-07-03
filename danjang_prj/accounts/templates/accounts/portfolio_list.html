@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- nav bar -->
+    <a href="{% url 'accounts:comming_soon' %}">DANJANG</a>
+    검색창
+    <a href="#">포트폴리오</a>
+    <a href="{% url 'accounts:mypage' %}">내 정보</a>
+    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+    <hr>
+    {% for portfolio in portfolios %}
+        이름: {{ portfolio.name }}<br>
+        전문 분야: {{ role.name }}<br>
+        {% if portfolio.profile_photo %}
+        프로필 사진: <img width="320" height="240" src="{{ portfolio.profile_photo.url }}"><br><br>
+        {% endif %}
+        <br>
+        한줄 소개: {{ portfolio.one_line }}<br>
+        상세 포트폴리오: <br>
+        
+        <hr>
+        경력사항<br>
+        <table>
+            <thead>
+                <tr>
+                    <th>경력</th>
+                    <th>역할</th>
+                    <th>연도</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% csrf_token %}
+                {% for career in careers %}
+                <tr>
+                    <td>{{ career.career_title }}</td>
+                    <td>{{ career.career_role }}</td>
+                    <td>{{ career.career_year }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <hr>
+        {% if posts %}
+        사진<br>
+            {% for post in posts %}
+                {% if post.photo %}
+                <img width="320" height="320" src="{{ post.photo.url }}">
+                {% endif %}
+            {% endfor %} 
+        <hr>
+        동영상<br>
+            {% for post in posts %}
+                {% if post.video %}
+                <video width="320" height="240" controls>
+                    <source src="{{ post.video.url }}" type="video/mp4">
+                </video>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {%endfor%}
+</body>
+</html>

@@ -171,12 +171,33 @@ def delete_my_photo(request, id):
     photo.delete()
     return redirect('accounts:update_myportfolio')
 
-def mylove(request):
-    return render(request, 'accounts/mylove.html')
+# 포트폴리오 보기
+def portfolio_list(request):
+    portfolio = Portfolio.objects.all().order_by('-created_at')
+    return render(request,"portfolio_list.html", {"portfolio" : portfolio})
 
+# 상세 포트폴리오
+def portfolio_detail(request, id):
+    portfolio = get_object_or_404(Portfolio, id = id)
+    return render(request, "portfolio_detail.html", {"portfolio":portfolio})
+
+
+# 찜
+def mylike(request, id):
+    if request.user.is_authenticated:
+        video = get_object_or_404(Video, id = id)
+        if video.like.filter(id = request.user.id).exists():
+            video.like.remove(request.user)
+        else:
+            video.like.add(request.user)
+        return redirect('accounts/mylike.html')
+    return render(request, 'accounts/mylike.html')
+
+# 기록
 def myviewhistory(request):
     return render(request, 'accounts/myviewhistory.html')
 
+# 구매내역
 def mypurchase(request):
     return render(request, 'accounts/mypurchase.html')
     
