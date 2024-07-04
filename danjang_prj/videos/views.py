@@ -5,6 +5,7 @@ from django.db.models import Q
 import random
 from django.contrib.auth.decorators import login_required
 
+"""
 @login_required
 def video_list(request):
     videos = Video.objects.all()
@@ -12,6 +13,20 @@ def video_list(request):
     ranking_videos = Video.objects.order_by('-views')[:10]
     new_videos = Video.objects.order_by('-created_at')[:10]
     return render(request, "videos/video_list.html", {'videos' : videos, 'random_videos':random_videos, 'ranking_videos':ranking_videos, 'new_videos': new_videos})
+"""
+@login_required
+def video_list(request):
+    videos = list(Video.objects.all())
+    if len(videos) < 10:
+        random_videos = videos
+        ranking_videos = sorted(videos, key=lambda x: x.views, reverse=True)[:10]
+        new_videos = sorted(videos, key=lambda x: x.created_at, reverse=True)[:10]
+    else:
+        random_videos = random.sample(videos, 10)
+        ranking_videos = sorted(videos, key=lambda x: x.views, reverse=True)[:10]
+        new_videos = sorted(videos, key=lambda x: x.created_at, reverse=True)[:10]
+    return render(request, "videos/video_list.html", {'videos': videos, 'random_videos': random_videos, 'ranking_videos': ranking_videos, 'new_videos': new_videos})
+
 
 @login_required
 def video_detail(request, id):
