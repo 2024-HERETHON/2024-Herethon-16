@@ -20,13 +20,14 @@
     찜한 콘텐츠<br>
     {% if videos %}
     
-      {% for video in videos %}
-      <a href="{% url 'videos:video_detail' video.id %}">
+    {% for video in videos %}
+    <a href="{% url 'videos:video_detail' video.id %}">
         <video width="320" height="240">
             <source src="{{ video.video.url }}" type="video/mp4">
         </video>
+        {{ video.title }}
         </a>
-      {% endfor %}
+    {% endfor %}
     
     {% else %}
         <p>찜한 콘텐츠 없음</p>

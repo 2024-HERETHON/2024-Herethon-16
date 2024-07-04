@@ -21,7 +21,7 @@
     <form method="POST" action="{% url 'accounts:create_my_video' %}" enctype="multipart/form-data">
         {% csrf_token %}
         동영상 - <input type="file" name="video"><br>
-        이름: <input type="text" name="title"><br>
+        제목: <input type="text" name="title"><br>
         출연진: <input type="text" name="cast"><br>
         스탭: <input type="text" name="staff"><br>
         키워드: <input type="text" name="keyword"><br>
