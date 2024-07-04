@@ -44,7 +44,7 @@ def mypage(request):
     try:
         myportfolio = Portfolio.objects.get(user=request.user)
         # 찜
-        likes = Like.objects.filter(user=request.user)
+        likes = Like.objects.filter(user=request.user).order_by('-created_at')
         videos = [like.video for like in likes][:3]
         # 시청기록
         myhistories = WatchHistory.objects.filter(user=request.user).order_by('-watched_at')
@@ -191,7 +191,7 @@ def update_my_video(request, id):
 
 # 내 찜
 def mylike(request):
-    likes = Like.objects.filter(user=request.user)
+    likes = Like.objects.filter(user=request.user).order_by('-created_at')
     videos = [like.video for like in likes]
     return render(request, 'accounts/mylike.html', {"likes" : likes, "videos" : videos})
 
