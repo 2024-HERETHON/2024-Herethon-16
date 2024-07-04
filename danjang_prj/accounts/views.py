@@ -41,7 +41,9 @@ def logout_view(request):
 def mypage(request):
     try:
         myportfolio = Portfolio.objects.get(user=request.user)
-        return render(request, 'accounts/mypage.html', {'myportfolio' : myportfolio})
+        likes = Like.objects.filter(user=request.user)
+        videos = [like.video for like in likes]
+        return render(request, 'accounts/mypage.html', {'myportfolio' : myportfolio, "likes" : likes, "videos" : videos})
     except Portfolio.DoesNotExist:
         return render(request, 'accounts/mypage.html')
 
@@ -171,12 +173,18 @@ def delete_my_photo(request, id):
     photo.delete()
     return redirect('accounts:update_myportfolio')
 
-def mylove(request):
-    return render(request, 'accounts/mylove.html')
 
+# 내 찜
+def mylike(request):
+    likes = Like.objects.filter(user=request.user)
+    videos = [like.video for like in likes]
+    return render(request, 'accounts/mylike.html', {"likes" : likes, "videos" : videos})
+
+# 기록
 def myviewhistory(request):
     return render(request, 'accounts/myviewhistory.html')
 
+# 구매내역
 def mypurchase(request):
     return render(request, 'accounts/mypurchase.html')
     

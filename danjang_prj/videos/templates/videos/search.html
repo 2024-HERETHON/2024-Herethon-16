@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>video_list</title>
+</head>
+<body>
+    <!-- nav bar -->
+    <a href="{% url 'accounts:comming_soon' %}">DANJANG</a>
+    검색창
+    <form action="{% url 'videos:result' %}">
+        <input name="data" size="20" value=""></input>
+        <input type="submit" value="검색" >
+    </form>
+    <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
+    <a href="{% url 'accounts:mypage' %}">내 정보</a>
+    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+    <hr>
+    <h1>"{{ entered_text }}" - 검색 결과</h1>
+    {% for video in videos %}
+    <a href="{% url 'videos:video_detail' video.id %}">
+        <video width="320" height="240">
+            <source src="{{ video.video.url }}" type="video/mp4">
+        </video>
+        {{ video.title }}
+    </a>
+    <hr>
+    {% empty %} 검색된 콘텐츠가 없습니다.
+    {%endfor%} 
+
+    
+</body>
+</html>
