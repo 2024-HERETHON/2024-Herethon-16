@@ -29,14 +29,18 @@
     <h1>포트폴리오</h1>
     {% for portfolio in portfolios %}
     <a href="{% url 'portfolios:portfolio_detail' portfolio.id %}">
-        {{ portfolio.name }}<br>
+        {% if portfolio.profile_photo %}
+        프로필 사진: <img width="320" height="240" src="{{ portfolio.profile_photo.url }}"><br><br>
+        {% endif %}
+    </a>
+        {{ portfolio.name }},
         {% for role in portfolio.role.all %}
         {{ role.name }}
         {% endfor %}
         {% for career in portfolio.careers.all|slice:":3" %}
     <li>{{ career.career_title }}</li>
         {% endfor %}
-    </a><br>
+    
     {% empty %} 검색된 포트폴리오가 없습니다.
     {% endfor %} 
     
