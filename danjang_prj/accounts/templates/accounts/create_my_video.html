@@ -1,32 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>영화 수정 페이지</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/edit.css' %}" />
 </head>
 <body>
-    <!-- nav bar -->
-    <a href="{% url 'videos:video_list' %}">DANJANG</a>
-    <form action="{% url 'videos:search' %}">
-        <input name="data" size="20" value=""></input>
-        <input type="submit" value="검색" >
-    </form>
-    <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
-    <a href="{% url 'accounts:mypage' %}">내 정보</a>
-    <a href="{% url 'accounts:logout' %}">로그아웃</a>
-    <hr>
-    <!-- 본문 -->
-    <hr>
-    <form method="POST" action="{% url 'accounts:create_my_video' %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        동영상 - <input type="file" name="video"><br>
-        제목: <input type="text" name="title"><br>
-        출연진: <input type="text" name="cast"><br>
-        스탭: <input type="text" name="staff"><br>
-        키워드: <input type="text" name="keyword"><br>
-        시놉시스: <input type="text" name="synopsis"><br>
-        <input type="submit" value="업로드하기" />
-    </form>
+    <div class="wrapper">
+    <div class="sidebar"></div>
+    <div class="container">
+        <div class="header">
+            <a href="{% url 'videos:video_list' %}">
+                <img src="../../static/images/logo.png" alt="로고">
+            </a>
+            <div class="search-container">
+                <form action="{% url 'videos:search' %}" method="get">
+                    <input type="text" name="data" placeholder="검색어를 입력해 주세요." size="20">
+                    <input type="image" src="{% static 'icons/search.png' %}" alt="검색">
+                </form>                
+            </div>
+            <div class="nav-links">
+                <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
+                <a href="{% url 'accounts:mypage' %}">내 정보</a>
+                <a href="{% url 'accounts:logout' %}">로그아웃</a>
+            </div>
+        </div>
+        <div class="main-content">
+            <form method="POST" action="{% url 'accounts:create_my_video' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="upload-section">
+                    <div class="upload-item">
+                        <label class="upload-label">영상 업로드</label>
+                        <label for="video-upload" class="custom-file-upload">파일선택</label>
+                        <input id="video-upload" type="file" name="video">
+                    </div>
+                </div>
+                <div class="form-section">
+                    <div class="form-group">
+                        <label class="title-label">영화 제목</label>
+                        <input type="text" id="movie-title" class="title-input" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label class="cast-label">출연진</label>
+                        <input type="text" id="actors" class="cast-input" name="cast">
+                        <label class="staff-label">스탭</label>
+                        <input type="text" id="staff" class="staff-input" name="staff">
+                    </div>
+                    <div class="form-group">
+                        <label class="keyword-label">키워드</label>
+                        <input type="text" id="keywords" class="keyword-input" name="keyword">
+                    </div>
+                </div>                        
+                <div class="synopsis-section">
+                    <label>시놉시스</label>
+                    <textarea id="synopsis" name="synopsis"></textarea>
+                </div>
+                <div class="save-button-container">
+                    <input class="save-button" type="submit" value="업로드하기">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="sidebar"></div>
+</div>
+
+    <script>
+        function saveData() {
+            const movieTitle = document.getElementById('movie-title').value;
+            const actors = document.getElementById('actors').value;
+            const staff = document.getElementById('staff').value;
+            const keywords = document.getElementById('keywords').value;
+            const synopsis = document.getElementById('synopsis').value;
+
+            localStorage.setItem('movieTitle', movieTitle);
+            localStorage.setItem('actors', actors);
+            localStorage.setItem('staff', staff);
+            localStorage.setItem('keywords', keywords);
+            localStorage.setItem('synopsis', synopsis);
+
+            alert('저장되었습니다.');
+        }
+    </script>
 </body>
 </html>
