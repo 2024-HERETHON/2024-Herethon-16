@@ -16,9 +16,8 @@
     <a href="{% url 'accounts:mypage' %}">내 정보</a>
     <a href="{% url 'accounts:logout' %}">로그아웃</a>
     <hr>
-    <!-- 아직 구현못함 
     <b>오늘의 추천 작품</b><br>
-    {% for video in videos %}
+    {% for video in random_videos %}
     <a href="{% url 'videos:video_detail' video.id %}">
         <video width="320" height="240">
             <source src="{{ video.video.url }}" type="video/mp4">
@@ -26,22 +25,20 @@
         {{ video.title }}
     </a>
     {%endfor%} 
-    <hr>-->
+    <hr>
     <b>랭킹</b><br>
-    {% with sorted_videos=videos|dictsortreversed:"views"|slice:":10" %}
-        {% for video in sorted_videos %}
+    {% for video in ranking_videos %}
         <a href="{% url 'videos:video_detail' video.id %}">
             <video width="320" height="240">
                 <source src="{{ video.video.url }}" type="video/mp4">
             </video>
             {{ video.title }}
         </a>
-        {% endfor %}
-    {% endwith %}
+    {% endfor %}
+
     <hr>
-    <!-- 렉이 너무 심해서 주석처리...
     <b>신작</b><br>
-    {% for video in videos|dictsortreversed:"created_at"|slice:":10" %}
+    {% for video in new_videos %}
     <a href="{% url 'videos:video_detail' video.id %}">
         <video width="320" height="240">
             <source src="{{ video.video.url }}" type="video/mp4">
@@ -49,6 +46,5 @@
         {{ video.title }}
     </a>
     {%endfor%}
-    -->
 </body>
 </html>

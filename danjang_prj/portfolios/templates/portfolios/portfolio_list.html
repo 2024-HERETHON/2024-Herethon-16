@@ -50,7 +50,7 @@
             </thead>
             <tbody>
                 {% csrf_token %}
-                {% for career in portfolio.careers.all %}
+                {% for career in portfolio.careers.all|slice:":3" %}
                 <tr>
                     <td>{{ career.career_title }}</td>
                     <td>{{ career.career_role }}</td>
@@ -72,11 +72,12 @@
         <br>
         {% if portfolio.videos.all %}
         
-            {% for video in portfolio.videos.all %}
+            {% for video in portfolio.videos.all|slice:":3" %}
             <a href="{% url 'videos:video_detail' video.id %}">
                 <video width="320" height="240">
                     <source src="{{ video.video.url }}" type="video/mp4">
                 </video>
+                {{ video.title }}
             </a>
             {% endfor %}
         {% endif %}
