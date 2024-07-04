@@ -27,8 +27,9 @@ def like(request, id):
         video.like.add(request.user)
     return redirect('videos:video_detail', id)
 
-# def search(request):
-#     entered_text = request.GET['data']
-#     videos = Video.objects.filter(Q(title__contains = entered_text) | Q(content__contains = entered_text))
+def search(request):
+    entered_text = request.GET['data']
+    portfolios = Portfolio.objects.filter(Q(name__contains = entered_text))
+    videos = Video.objects.filter(Q(title__contains = entered_text) | Q(cast__contains = entered_text) | Q(staff__contains = entered_text) | Q(keyword__contains = entered_text) | Q(synopsis__contains = entered_text) | Q(staff__contains = entered_text))
 
-#     return render(request, "videos/search.html", {'videos': videos, 'entered_text': entered_text})
+    return render(request, "videos/search.html", {'portfolios': portfolios,'videos': videos, 'entered_text': entered_text})

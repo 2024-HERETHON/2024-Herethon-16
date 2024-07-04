@@ -9,15 +9,13 @@
     <!-- nav bar -->
     <a href="{% url 'videos:video_list' %}">DANJANG</a>
     검색창
-    <form action="{% url 'videos:result' %}">
-        <input name="data" size="20" value=""></input>
-        <input type="submit" value="검색" >
-    </form>
+
     <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
     <a href="{% url 'accounts:mypage' %}">내 정보</a>
     <a href="{% url 'accounts:logout' %}">로그아웃</a>
     <hr>
     <h1>"{{ entered_text }}" - 검색 결과</h1>
+    <h1>작품</h1>
     {% for video in videos %}
     <a href="{% url 'videos:video_detail' video.id %}">
         <video width="320" height="240">
@@ -25,9 +23,9 @@
         </video>
         {{ video.title }}
     </a>
+    {% empty %} 검색된 영상 콘텐츠가 없습니다.
+    {% endfor %} 
     <hr>
-    {% empty %} 검색된 콘텐츠가 없습니다.
-    {%endfor%} 
 
     
 </body>
