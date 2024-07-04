@@ -8,7 +8,7 @@
 </head>
 <body>
     <!-- nav bar -->
-    <a href="{% url 'accounts:comming_soon' %}">DANJANG</a>
+    <a href="{% url 'videos:video_list' %}">DANJANG</a>
     검색창
     <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
     <a href="{% url 'accounts:mypage' %}">내 정보</a>
@@ -71,17 +71,8 @@
     </table>
 
     <hr>
-    <a href="{% url 'accounts:create_my_video_photo' %}">사진/영상</a><br>
+    <a href="{% url 'accounts:create_my_video_photo' %}">영상</a><br>
     {% if posts %}
-    사진<br>
-        {% for post in posts %}
-            {% if post.photo %}
-            <img width="320" height="320" src="{{ post.photo.url }}">
-            <a href="{% url 'accounts:delete_my_photo' post.id %}">삭제</a>
-            {% endif %}
-        {% endfor %} 
-    <hr>
-    동영상<br>
         {% for post in posts %}
             {% if post.video %}
             <video width="320" height="240" controls>

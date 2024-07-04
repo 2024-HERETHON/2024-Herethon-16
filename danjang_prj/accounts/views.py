@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import *
 from .models import *
+from portfolios.models import *
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
-from portfolios.models import *
 
 # 로그인한 자에게만 권한 주는 거 까먹지 말기
 
@@ -32,7 +32,7 @@ def login_view(request):
     form = AuthenticationForm(request, data = request.POST)
     if form.is_valid():
         login(request, form.user_cache)
-        return redirect('accounts:comming_soon')
+        return redirect('videos:video_list')
     return render(request, 'accounts/login.html', {'form' : form})
 
 def logout_view(request):
@@ -41,13 +41,13 @@ def logout_view(request):
     return redirect('accounts:index')
 
 def mypage(request):
+    likes = Like.objects.filter(user=request.user)
+    videos = [like.video for like in likes][:3]
     try:
         myportfolio = Portfolio.objects.get(user=request.user)
-        likes = Like.objects.filter(user=request.user)
-        videos = [like.video for like in likes]
-        return render(request, 'accounts/mypage.html', {'myportfolio' : myportfolio, "likes" : likes, "videos" : videos})
+        return render(request, 'accounts/mypage.html', {'myportfolio' : myportfolio, 'likes' : likes, 'videos' : videos})
     except Portfolio.DoesNotExist:
-        return render(request, 'accounts/mypage.html')
+        return render(request, 'accounts/mypage.html', {'likes' : likes, 'videos' : videos})
 
 def mypage_image_update(request, id):
     User = get_user_model()
@@ -112,7 +112,7 @@ def update_myportfolio(request):
         myportfolio = Portfolio.objects.get(user=request.user)
         roles = Role.objects.all()
 
-        # 사용자의 포트폴리오에 해당하는 모든 사진과 동영상을 가져옵니다.
+        # 사용자의 포트폴리오에 해당하는 모든 사진과 동영상을 가져옴
         photos = Photo.objects.filter(portfolio__user=request.user)
         videos = Video.objects.filter(portfolio__user=request.user)
         posts = list(photos) + list(videos)  # 두 쿼리셋을 합칩니다.

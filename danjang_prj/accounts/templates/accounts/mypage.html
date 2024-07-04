@@ -7,7 +7,7 @@
 </head>
 <body>
     <!-- nav bar -->
-    <a href="{% url 'accounts:comming_soon' %}">DANJANG</a>
+    <a href="{% url 'videos:video_list' %}">DANJANG</a>
     검색창
     <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
     <a href="{% url 'accounts:mypage' %}">내 정보</a>
@@ -37,13 +37,17 @@
     <hr>
     내가 찜한 콘텐츠 <a href="{% url 'accounts:mylike' %}">모두 보기</a>
     <br>
-    {% for video in videos %}
+    {% if videos %}
+      {% for video in videos %}
       <a href="{% url 'videos:video_detail' video.id %}">
         <video width="320" height="240">
             <source src="{{ video.video.url }}" type="video/mp4">
         </video>
         </a>
       {% endfor %}
+    {% else %}
+        <p>찜한 콘텐츠 없음</p>
+    {% endif %}
     <hr>
     
 </body>
