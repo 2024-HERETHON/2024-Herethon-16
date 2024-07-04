@@ -18,7 +18,7 @@ urlpatterns = [
     path('delete_my_career/<int:id>/', delete_my_career, name="delete_my_career"),
 
     # 사진 및 영상 업로드
-    path('create_my_video_photo/', create_my_video_photo, name="create_my_video_photo"),
+    path('create_my_video/', create_my_video, name="create_my_video"),
     path('delete_my_video/<int:id>/', delete_my_video, name="delete_my_video"),
     path('delete_my_photo/<int:id>/', delete_my_photo, name="delete_my_photo"),
     path('mylike/', mylike, name="mylike"),

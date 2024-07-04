@@ -144,16 +144,8 @@ def update_myportfolio(request):
         myportfolio.save()
         return redirect('accounts:update_myportfolio')
     
-def create_my_video_photo(request):
+def create_my_video(request):
     if request.method == 'POST':
-        photo = request.FILES.get('photo')
-        if photo:
-            Photo.objects.create(
-                user=request.user,
-                photo=photo,
-                portfolio=Portfolio.objects.get(user=request.user),
-            )
-
         video = request.FILES.get('video')
         if video:
             Video.objects.create(
@@ -167,7 +159,7 @@ def create_my_video_photo(request):
                 synopsis=request.POST.get('synopsis'),
             )
         return redirect('accounts:update_myportfolio')
-    return render(request, 'accounts/create_my_video_photo.html')
+    return render(request, 'accounts/create_my_video.html')
 
 def delete_my_video(request, id):
     video = get_object_or_404(Video, id = id)
