@@ -3,9 +3,9 @@ from .forms import *
 from .models import *
 from portfolios.models import *
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
 
-# 로그인한 자에게만 권한 주는 거 까먹지 말기
 
 def comming_soon(request):
     return render(request, 'accounts/comming_soon.html')
@@ -40,6 +40,7 @@ def logout_view(request):
         logout(request)
     return redirect('accounts:index')
 
+@login_required
 def mypage(request):
     # 찜
     likes = Like.objects.filter(user=request.user).order_by('-created_at')
@@ -53,6 +54,7 @@ def mypage(request):
     except Portfolio.DoesNotExist:
         return render(request, 'accounts/mypage.html', {'likes' : likes, 'videos' : videos, 'myhistories': myhistories, "watch_videos" : watch_videos})
 
+@login_required
 def mypage_image_update(request, id):
     User = get_user_model()
     user = User.objects.get(id=id)
@@ -66,6 +68,7 @@ def mypage_image_update(request, id):
         return redirect('accounts:mypage')
     return render(request, 'accounts/mypage.html', {'user' : user})
 
+@login_required
 def create_myportfolio(request):
     roles = Role.objects.all()
 
@@ -94,6 +97,7 @@ def create_myportfolio(request):
         return redirect('accounts:mypage')
     return render(request, 'accounts/create_myportfolio.html', {'roles' : roles})
 
+@login_required
 def create_my_career(request):
     if request.method == 'POST':
         Career.objects.create(
@@ -106,11 +110,13 @@ def create_my_career(request):
         return redirect('accounts:update_myportfolio')
     return render(request, 'accounts:update_myportfolio.html')
 
+@login_required
 def delete_my_career(request, id):
     my_career = get_object_or_404(Career, id = id)
     my_career.delete()
     return redirect('accounts:update_myportfolio')
 
+@login_required
 def update_myportfolio(request):
     if request.method == "GET":
         myportfolio = Portfolio.objects.get(user=request.user)
@@ -143,7 +149,8 @@ def update_myportfolio(request):
 
         myportfolio.save()
         return redirect('accounts:update_myportfolio')
-    
+
+@login_required
 def create_my_video(request):
     if request.method == 'POST':
         video = request.FILES.get('video')
@@ -161,16 +168,19 @@ def create_my_video(request):
         return redirect('accounts:update_myportfolio')
     return render(request, 'accounts/create_my_video.html')
 
+@login_required
 def delete_my_video(request, id):
     video = get_object_or_404(Video, id = id)
     video.delete()
     return redirect('accounts:update_myportfolio')
 
+@login_required
 def delete_my_photo(request, id):
     photo = get_object_or_404(Photo, id = id)
     photo.delete()
     return redirect('accounts:update_myportfolio')
 
+@login_required
 def update_my_video(request, id):
     post = get_object_or_404(Video, id = id)
     if request.method == "POST":
@@ -190,12 +200,14 @@ def update_my_video(request, id):
     return render(request, 'accounts/update_my_video.html', {'post':post})
 
 # 내 찜
+@login_required
 def mylike(request):
     likes = Like.objects.filter(user=request.user).order_by('-created_at')
     videos = [like.video for like in likes]
     return render(request, 'accounts/mylike.html', {"likes" : likes, "videos" : videos})
 
 # 기록
+@login_required
 def myviewhistory(request):
     myhistories = WatchHistory.objects.filter(user=request.user).order_by('-watched_at')
     watch_videos = [myhistory.video for myhistory in myhistories]

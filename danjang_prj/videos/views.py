@@ -3,7 +3,9 @@ from .models import *
 from portfolios.models import *
 from django.db.models import Q
 import random
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def video_list(request):
     videos = Video.objects.all()
     random_videos = random.sample(list(videos), 10)
@@ -11,6 +13,7 @@ def video_list(request):
     new_videos = Video.objects.order_by('-created_at')[:10]
     return render(request, "videos/video_list.html", {'videos' : videos, 'random_videos':random_videos, 'ranking_videos':ranking_videos, 'new_videos': new_videos})
 
+@login_required
 def video_detail(request, id):
     video = get_object_or_404(Video, id = id)
 
@@ -23,9 +26,9 @@ def video_detail(request, id):
             video=video,
         )
     
-
     return render(request, "videos/video_detail.html",{'video' : video, 'views' : views})
 
+@login_required
 def like(request, id):
     video = get_object_or_404(Video, id = id)
     if video.like.filter(id = request.user.id).exists():
@@ -34,6 +37,7 @@ def like(request, id):
         video.like.add(request.user)
     return redirect('videos:video_detail', id)
 
+@login_required
 def search(request):
     entered_text = request.GET['data']
     portfolios = Portfolio.objects.filter(Q(name__contains = entered_text) | Q(careers__career_title__contains=entered_text))
