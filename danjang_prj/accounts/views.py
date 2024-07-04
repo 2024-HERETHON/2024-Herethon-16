@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import *
 from .models import *
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login, logout
 from portfolios.models import *
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, logout
 
-# 로그인한 자에게만 권한 주는 거 까먹지 말기
 
 def comming_soon(request):
     return render(request, 'accounts/comming_soon.html')
@@ -32,7 +32,7 @@ def login_view(request):
     form = AuthenticationForm(request, data = request.POST)
     if form.is_valid():
         login(request, form.user_cache)
-        return redirect('accounts:comming_soon')
+        return redirect('videos:video_list')
     return render(request, 'accounts/login.html', {'form' : form})
 
 def logout_view(request):
@@ -40,15 +40,21 @@ def logout_view(request):
         logout(request)
     return redirect('accounts:index')
 
+@login_required
 def mypage(request):
+    # 찜
+    likes = Like.objects.filter(user=request.user).order_by('-created_at')
+    videos = [like.video for like in likes][:3]
+    # 시청기록
+    myhistories = WatchHistory.objects.filter(user=request.user).order_by('-watched_at')
+    watch_videos = [myhistory.video for myhistory in myhistories][:3]
     try:
         myportfolio = Portfolio.objects.get(user=request.user)
-        likes = Like.objects.filter(user=request.user)
-        videos = [like.video for like in likes]
-        return render(request, 'accounts/mypage.html', {'myportfolio' : myportfolio, "likes" : likes, "videos" : videos})
+        return render(request, 'accounts/mypage.html', {'myportfolio' : myportfolio, 'likes' : likes, 'videos' : videos, 'myhistories': myhistories, "watch_videos" : watch_videos})
     except Portfolio.DoesNotExist:
-        return render(request, 'accounts/mypage.html')
+        return render(request, 'accounts/mypage.html', {'likes' : likes, 'videos' : videos, 'myhistories': myhistories, "watch_videos" : watch_videos})
 
+@login_required
 def mypage_image_update(request, id):
     User = get_user_model()
     user = User.objects.get(id=id)
@@ -62,6 +68,7 @@ def mypage_image_update(request, id):
         return redirect('accounts:mypage')
     return render(request, 'accounts/mypage.html', {'user' : user})
 
+@login_required
 def create_myportfolio(request):
     roles = Role.objects.all()
 
@@ -90,6 +97,7 @@ def create_myportfolio(request):
         return redirect('accounts:mypage')
     return render(request, 'accounts/create_myportfolio.html', {'roles' : roles})
 
+@login_required
 def create_my_career(request):
     if request.method == 'POST':
         Career.objects.create(
@@ -102,17 +110,19 @@ def create_my_career(request):
         return redirect('accounts:update_myportfolio')
     return render(request, 'accounts:update_myportfolio.html')
 
+@login_required
 def delete_my_career(request, id):
     my_career = get_object_or_404(Career, id = id)
     my_career.delete()
     return redirect('accounts:update_myportfolio')
 
+@login_required
 def update_myportfolio(request):
     if request.method == "GET":
         myportfolio = Portfolio.objects.get(user=request.user)
         roles = Role.objects.all()
 
-        # 사용자의 포트폴리오에 해당하는 모든 사진과 동영상을 가져옵니다.
+        # 사용자의 포트폴리오에 해당하는 모든 사진과 동영상을 가져옴
         photos = Photo.objects.filter(portfolio__user=request.user)
         videos = Video.objects.filter(portfolio__user=request.user)
         posts = list(photos) + list(videos)  # 두 쿼리셋을 합칩니다.
@@ -139,17 +149,10 @@ def update_myportfolio(request):
 
         myportfolio.save()
         return redirect('accounts:update_myportfolio')
-    
-def create_my_video_photo(request):
-    if request.method == 'POST':
-        photo = request.FILES.get('photo')
-        if photo:
-            Photo.objects.create(
-                user=request.user,
-                photo=photo,
-                portfolio=Portfolio.objects.get(user=request.user),
-            )
 
+@login_required
+def create_my_video(request):
+    if request.method == 'POST':
         video = request.FILES.get('video')
         if video:
             Video.objects.create(
@@ -163,30 +166,49 @@ def create_my_video_photo(request):
                 synopsis=request.POST.get('synopsis'),
             )
         return redirect('accounts:update_myportfolio')
-    return render(request, 'accounts/create_my_video_photo.html')
+    return render(request, 'accounts/create_my_video.html')
 
+@login_required
 def delete_my_video(request, id):
     video = get_object_or_404(Video, id = id)
     video.delete()
     return redirect('accounts:update_myportfolio')
 
+@login_required
 def delete_my_photo(request, id):
     photo = get_object_or_404(Photo, id = id)
     photo.delete()
     return redirect('accounts:update_myportfolio')
 
+@login_required
+def update_my_video(request, id):
+    post = get_object_or_404(Video, id = id)
+    if request.method == "POST":
+        post.title = request.POST.get('title')
+        post.cast = request.POST.get('cast')
+        post.staff = request.POST.get('staff')
+        post.keyword = request.POST.get('keyword')
+        post.synopsis = request.POST.get('synopsis')
+        video = request.FILES.get('video')
+
+        if video:
+            post.video.delete()
+            post.video = video
+
+        post.save()
+        return redirect('accounts:update_myportfolio')
+    return render(request, 'accounts/update_my_video.html', {'post':post})
 
 # 내 찜
+@login_required
 def mylike(request):
-    likes = Like.objects.filter(user=request.user)
+    likes = Like.objects.filter(user=request.user).order_by('-created_at')
     videos = [like.video for like in likes]
     return render(request, 'accounts/mylike.html', {"likes" : likes, "videos" : videos})
 
 # 기록
+@login_required
 def myviewhistory(request):
-    return render(request, 'accounts/myviewhistory.html')
-
-# 구매내역
-def mypurchase(request):
-    return render(request, 'accounts/mypurchase.html')
-    
+    myhistories = WatchHistory.objects.filter(user=request.user).order_by('-watched_at')
+    watch_videos = [myhistory.video for myhistory in myhistories]
+    return render(request, 'accounts/myviewhistory.html', {'myhistories': myhistories, "watch_videos" : watch_videos})

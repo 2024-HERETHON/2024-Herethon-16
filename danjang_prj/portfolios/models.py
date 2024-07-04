@@ -87,9 +87,9 @@ class Photo(models.Model):
 class Like(models.Model):
     video = models.ForeignKey(to=Video, on_delete=models.CASCADE, related_name="video_likes")
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="user_likes")
-'''
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+
 class WatchHistory(models.Model):
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='watch_history')
-    video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name='watch_history')
-    watched_at = models.DateTimeField(auto_now_add=True)
-'''
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='watch_histories')
+    video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name='watch_histories')
+    watched_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)

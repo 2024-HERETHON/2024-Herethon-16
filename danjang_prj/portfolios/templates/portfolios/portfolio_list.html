@@ -8,17 +8,21 @@
 </head>
 <body>
     <!-- nav bar -->
-    <a href="{% url 'accounts:comming_soon' %}">DANJANG</a>
-    검색창
+    <a href="{% url 'videos:video_list' %}">DANJANG</a>
+    <form action="{% url 'videos:search' %}">
+        <input name="data" size="20" value=""></input>
+        <input type="submit" value="검색" >
+    </form>
     <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
     <a href="{% url 'accounts:mypage' %}">내 정보</a>
     <a href="{% url 'accounts:logout' %}">로그아웃</a>
     <hr>
+    <!-- 본문 -->
     <form method="GET">
         <b>전문분야 필터</b><br>
         {% for role in roles %}
             <input type="checkbox" name="roles" value="{{ role.id }}"
-                   {% if role.id in selected_roles %}checked{% endif %}>
+                {% if role.id in selected_roles %}checked{% endif %}>
             {{ role.name }}
         {% endfor %}
         <button type="submit">필터 적용</button>

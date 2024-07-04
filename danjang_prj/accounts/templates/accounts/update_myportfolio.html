@@ -8,12 +8,16 @@
 </head>
 <body>
     <!-- nav bar -->
-    <a href="{% url 'accounts:comming_soon' %}">DANJANG</a>
-    검색창
+    <a href="{% url 'videos:video_list' %}">DANJANG</a>
+    <form action="{% url 'videos:search' %}">
+        <input name="data" size="20" value=""></input>
+        <input type="submit" value="검색" >
+    </form>
     <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
     <a href="{% url 'accounts:mypage' %}">내 정보</a>
     <a href="{% url 'accounts:logout' %}">로그아웃</a>
     <hr>
+    <!-- 본문 -->
     <form method="POST" action="{% url 'accounts:update_myportfolio' %}" enctype="multipart/form-data">
     {% csrf_token %}
     이름: <input type="text" value="{{ myportfolio.name }}" name="name" id="name"><br>
@@ -71,22 +75,14 @@
     </table>
 
     <hr>
-    <a href="{% url 'accounts:create_my_video_photo' %}">사진/영상</a><br>
+    <a href="{% url 'accounts:create_my_video' %}">영상</a><br>
     {% if posts %}
-    사진<br>
-        {% for post in posts %}
-            {% if post.photo %}
-            <img width="320" height="320" src="{{ post.photo.url }}">
-            <a href="{% url 'accounts:delete_my_photo' post.id %}">삭제</a>
-            {% endif %}
-        {% endfor %} 
-    <hr>
-    동영상<br>
         {% for post in posts %}
             {% if post.video %}
             <video width="320" height="240" controls>
                 <source src="{{ post.video.url }}" type="video/mp4">
             </video>
+            <a href="{% url 'accounts:update_my_video' post.id %}">수정</a>
             <a href="{% url 'accounts:delete_my_video' post.id %}">삭제</a>
             {% endif %}
         {% endfor %}
