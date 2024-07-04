@@ -6,6 +6,17 @@
     <title>Document</title>
 </head>
 <body>
+    <!-- nav bar -->
+    <a href="{% url 'videos:video_list' %}">DANJANG</a>
+    <form action="{% url 'videos:search' %}">
+        <input name="data" size="20" value=""></input>
+        <input type="submit" value="검색" >
+    </form>
+    <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
+    <a href="{% url 'accounts:mypage' %}">내 정보</a>
+    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+    <hr>
+    <!-- 본문 -->
     <form method="POST" action="{% url 'accounts:create_myportfolio' %}" enctype="multipart/form-data">
         {% csrf_token %}
         이름: <input type="text" name="name"><br>

@@ -37,7 +37,7 @@ class Portfolio(models.Model):
     user = models.ForeignKey(to = User, on_delete=models.CASCADE, related_name='portfolios', null=True)
     name = models.CharField(max_length=10) # 이름
     role = models.ManyToManyField(to=Role, through="PortfolioRole", related_name="portfolios") # 전문분야
-    profile_photo = models.ImageField(verbose_name="프로필사진", blank=True, upload_to=upload_filepath) # 프로필 사진
+    profile_photo = models.ImageField(verbose_name="프로필사진", blank=True, upload_to=upload_filepath, default='media/default_mypage_image.jpg') # 프로필 사진
     email = models.EmailField(max_length=128, verbose_name="이메일", blank=True)
     one_line = models.CharField(verbose_name="한줄소개", max_length=128, blank=True) # 한 줄 소개
     intro = models.TextField(verbose_name="소개글", blank=True) # 소개글
