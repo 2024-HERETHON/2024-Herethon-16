@@ -24,6 +24,5 @@ urlpatterns = [
     path('mylike/', mylike, name="mylike"),
     # path('my_like/<int:video_id>/',mylike, name="mylike"),
     path('myviewhistory/', myviewhistory, name="myviewhistory"),
-    path('mypurchase/', mypurchase, name="mypurchase"),
     path('comming_soon/', comming_soon, name="comming_soon")
 ]

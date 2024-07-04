@@ -38,17 +38,31 @@
     
     <hr>
     나의 시청 기록 <a href="{% url 'accounts:myviewhistory' %}">모두 보기</a>
+    <br>
+    {% if watch_videos %}
+    
+    {% for watch_video in watch_videos %}
+    <a href="{% url 'videos:video_detail' watch_video.id %}">
+        <video width="320" height="240">
+            <source src="{{ watch_video.video.url }}" type="video/mp4">
+        </video>
+        </a>
+    {% endfor %}
+    {% else %}
+    시청한 콘텐츠 없음
+    {% endif %}
+    
     <hr>
     내가 찜한 콘텐츠 <a href="{% url 'accounts:mylike' %}">모두 보기</a>
     <br>
     {% if videos %}
-      {% for video in videos %}
-      <a href="{% url 'videos:video_detail' video.id %}">
+    {% for video in videos %}
+    <a href="{% url 'videos:video_detail' video.id %}">
         <video width="320" height="240">
             <source src="{{ video.video.url }}" type="video/mp4">
         </video>
         </a>
-      {% endfor %}
+    {% endfor %}
     {% else %}
         <p>찜한 콘텐츠 없음</p>
     {% endif %}

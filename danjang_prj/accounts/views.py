@@ -41,13 +41,17 @@ def logout_view(request):
     return redirect('accounts:index')
 
 def mypage(request):
-    likes = Like.objects.filter(user=request.user)
-    videos = [like.video for like in likes][:3]
     try:
         myportfolio = Portfolio.objects.get(user=request.user)
-        return render(request, 'accounts/mypage.html', {'myportfolio' : myportfolio, 'likes' : likes, 'videos' : videos})
+        # 찜
+        likes = Like.objects.filter(user=request.user)
+        videos = [like.video for like in likes][:3]
+        # 시청기록
+        myhistories = WatchHistory.objects.filter(user=request.user).order_by('-watched_at')
+        watch_videos = [myhistory.video for myhistory in myhistories][:3]
+        return render(request, 'accounts/mypage.html', {'myportfolio' : myportfolio, 'likes' : likes, 'videos' : videos, 'myhistories': myhistories, "watch_videos" : watch_videos})
     except Portfolio.DoesNotExist:
-        return render(request, 'accounts/mypage.html', {'likes' : likes, 'videos' : videos})
+        return render(request, 'accounts/mypage.html')
 
 def mypage_image_update(request, id):
     User = get_user_model()
@@ -184,9 +188,6 @@ def mylike(request):
 
 # 기록
 def myviewhistory(request):
-    return render(request, 'accounts/myviewhistory.html')
-
-# 구매내역
-def mypurchase(request):
-    return render(request, 'accounts/mypurchase.html')
-    
+    myhistories = WatchHistory.objects.filter(user=request.user).order_by('-watched_at')
+    watch_videos = [myhistory.video for myhistory in myhistories]
+    return render(request, 'accounts/myviewhistory.html', {'myhistories': myhistories, "watch_videos" : watch_videos})

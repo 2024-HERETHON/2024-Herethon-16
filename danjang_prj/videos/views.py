@@ -16,6 +16,13 @@ def video_detail(request, id):
 
     views = Video.objects.get(pk=id)
     views.increase_views()
+    
+    if request.method == 'GET':
+        WatchHistory.objects.create(
+            user=request.user,
+            video=video,
+        )
+    
 
     return render(request, "videos/video_detail.html",{'video' : video, 'views' : views})
 

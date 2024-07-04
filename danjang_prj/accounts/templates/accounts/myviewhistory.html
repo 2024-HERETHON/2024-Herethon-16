@@ -17,6 +17,18 @@
     <a href="{% url 'accounts:logout' %}">로그아웃</a>
     <hr>
     <!-- 본문 -->
-    my view history
+    <h1>나의 시청 기록</h1>
+    {% if watch_videos %}
+    
+    {% for watch_video in watch_videos %}
+    <a href="{% url 'videos:video_detail' watch_video.id %}">
+        <video width="320" height="240">
+            <source src="{{ watch_video.video.url }}" type="video/mp4">
+        </video>
+        </a>
+    {% endfor %}
+    {% else %}
+    시청한 콘텐츠 없음
+    {% endif %}
 </body>
 </html>
