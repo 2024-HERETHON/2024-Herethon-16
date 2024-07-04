@@ -5,7 +5,7 @@ from portfolios.models import *
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
-
+from itertools import groupby
 
 def comming_soon(request):
     return render(request, 'accounts/comming_soon.html')
@@ -47,12 +47,17 @@ def mypage(request):
     videos = [like.video for like in likes][:3]
     # 시청기록
     myhistories = WatchHistory.objects.filter(user=request.user).order_by('-watched_at')
-    watch_videos = [myhistory.video for myhistory in myhistories][:3]
+    seen_videos = set()
+    unique_histories = []
+    for history in myhistories:
+        if history.video.id not in seen_videos:
+            unique_histories.append(history)
+            seen_videos.add(history.video.id)
     try:
         myportfolio = Portfolio.objects.get(user=request.user)
-        return render(request, 'accounts/mypage.html', {'myportfolio' : myportfolio, 'likes' : likes, 'videos' : videos, 'myhistories': myhistories, "watch_videos" : watch_videos})
+        return render(request, 'accounts/mypage.html', {'myportfolio' : myportfolio, 'likes' : likes, 'videos' : videos, 'myhistories': unique_histories, "watch_videos" : [history.video for history in unique_histories]})
     except Portfolio.DoesNotExist:
-        return render(request, 'accounts/mypage.html', {'likes' : likes, 'videos' : videos, 'myhistories': myhistories, "watch_videos" : watch_videos})
+        return render(request, 'accounts/mypage.html', {'likes' : likes, 'videos' : videos, 'myhistories': unique_histories, "watch_videos" : [history.video for history in unique_histories]})
 
 @login_required
 def mypage_image_update(request, id):
@@ -209,6 +214,16 @@ def mylike(request):
 # 기록
 @login_required
 def myviewhistory(request):
+    # 모든 기록을 가져오지만, 중복 제거를 위해 Python에서 필터링
     myhistories = WatchHistory.objects.filter(user=request.user).order_by('-watched_at')
-    watch_videos = [myhistory.video for myhistory in myhistories]
-    return render(request, 'accounts/myviewhistory.html', {'myhistories': myhistories, "watch_videos" : watch_videos})
+
+    # 중복된 비디오 제거를 위해 비디오 ID를 추적
+    seen_videos = set()
+    unique_histories = []
+
+    for history in myhistories:
+        if history.video.id not in seen_videos:
+            unique_histories.append(history)
+            seen_videos.add(history.video.id)
+
+    return render(request, 'accounts/myviewhistory.html', {'myhistories': unique_histories, "watch_videos" : [history.video for history in unique_histories]})
