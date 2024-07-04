@@ -171,6 +171,23 @@ def delete_my_photo(request, id):
     photo.delete()
     return redirect('accounts:update_myportfolio')
 
+def update_my_video(request, id):
+    post = get_object_or_404(Video, id = id)
+    if request.method == "POST":
+        post.title = request.POST.get('title')
+        post.cast = request.POST.get('cast')
+        post.staff = request.POST.get('staff')
+        post.keyword = request.POST.get('keyword')
+        post.synopsis = request.POST.get('synopsis')
+        video = request.FILES.get('video')
+
+        if video:
+            post.video.delete()
+            post.video = video
+
+        post.save()
+        return redirect('accounts:update_myportfolio')
+    return render(request, 'accounts/update_my_video.html', {'post':post})
 
 # 내 찜
 def mylike(request):

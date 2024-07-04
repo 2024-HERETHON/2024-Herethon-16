@@ -82,6 +82,7 @@
             <video width="320" height="240" controls>
                 <source src="{{ post.video.url }}" type="video/mp4">
             </video>
+            <a href="{% url 'accounts:update_my_video' post.id %}">수정</a>
             <a href="{% url 'accounts:delete_my_video' post.id %}">삭제</a>
             {% endif %}
         {% endfor %}

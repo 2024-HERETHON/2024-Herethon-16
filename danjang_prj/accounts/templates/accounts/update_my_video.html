@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- nav bar -->
+    <a href="{% url 'videos:video_list' %}">DANJANG</a>
+    <form action="{% url 'videos:search' %}">
+        <input name="data" size="20" value=""></input>
+        <input type="submit" value="검색" >
+    </form>
+    <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
+    <a href="{% url 'accounts:mypage' %}">내 정보</a>
+    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+    <hr>
+    <!-- 본문 -->
+    <hr>
+    <form method="POST" action="{% url 'accounts:update_my_video' post.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% if post.video %}
+        기존 동영상 : <video width="320" height="240" controls>
+            <source src="{{ post.video.url }}" type="video/mp4"><br><br>
+        </video>
+        {% endif %}<br><br>
+        비디오 변경 - <input type="file" name="video"><br><br>
+        이름: <input type="text" value="{{ post.title }}" name="title"><br>
+        출연진: <input type="text" value="{{ post.cast }}" name="cast"><br>
+        스탭: <input type="text" value="{{ post.staff }}" name="staff"><br>
+        키워드: <input type="text" value="{{ post.keyword }}" name="keyword"><br>
+        시놉시스: <input type="text" value="{{ post.synopsis }}" name="synopsis"><br>
+        <input type="submit" value="수정하기" />
+    </form>
+</body>
+</html>
