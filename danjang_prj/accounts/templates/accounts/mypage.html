@@ -14,7 +14,7 @@
     <a href="{% url 'accounts:logout' %}">로그아웃</a>
     <hr>
 
-    username: {{ request.user.username }}<br>
+    nickname: {{ request.user.nickname }}<br>
     
     <form method="POST" action="{% url 'accounts:mypage_image_update' user.id %}" enctype="multipart/form-data">
         {% csrf_token %}
@@ -24,7 +24,7 @@
         이미지 변경 <input type="file" name="mypage_image"><br>
         <input type="submit" value="수정하기">
     </form>
-    <!-- 포트폴리오 없으면 생성, 있으면 수정 -->
+    <!-- 포트폴리오 없으면 생성, 있으면 수정. -->
     {% if myportfolio.id %}
     <a href="{% url 'accounts:update_myportfolio' %}">내 포트폴리오 보기</a>
     {% else %}
