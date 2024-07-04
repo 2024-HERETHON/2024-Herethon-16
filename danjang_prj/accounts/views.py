@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
 from itertools import groupby
 
+
 def comming_soon(request):
     return render(request, 'accounts/comming_soon.html')
 

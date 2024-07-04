@@ -40,7 +40,7 @@ def like(request, id):
 @login_required
 def search(request):
     entered_text = request.GET['data']
-    portfolios = Portfolio.objects.filter(Q(name__contains = entered_text) | Q(careers__career_title__contains=entered_text))
+    portfolios = Portfolio.objects.filter(Q(name__contains = entered_text) | Q(careers__career_title__contains=entered_text)).distinct()
 
     videos = Video.objects.filter(Q(title__contains = entered_text) | Q(cast__contains = entered_text) | Q(staff__contains = entered_text) | Q(keyword__contains = entered_text) | Q(synopsis__contains = entered_text) | Q(staff__contains = entered_text))
 
