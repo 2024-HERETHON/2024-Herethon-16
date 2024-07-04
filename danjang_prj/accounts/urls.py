@@ -16,15 +16,13 @@ urlpatterns = [
     path('update_myportfolio/', update_myportfolio, name="update_myportfolio"),
     path('create_my_career/', create_my_career, name='create_my_career'),
     path('delete_my_career/<int:id>/', delete_my_career, name="delete_my_career"),
-    # 포트폴리오
-    path('portfolio_list/', portfolio_list, name="portfolio_list"),
-    path('portfolio_detail/<int:id>/', portfolio_detail, name="portfolio_detail"),
+
     # 사진 및 영상 업로드
     path('create_my_video_photo/', create_my_video_photo, name="create_my_video_photo"),
     path('delete_my_video/<int:id>/', delete_my_video, name="delete_my_video"),
     path('delete_my_photo/<int:id>/', delete_my_photo, name="delete_my_photo"),
     path('mylike/', mylike, name="mylike"),
-    #path('my_like/<int:video_id>/',mylike, name="mylike"),
+    # path('my_like/<int:video_id>/',mylike, name="mylike"),
     path('myviewhistory/', myviewhistory, name="myviewhistory"),
     path('mypurchase/', mypurchase, name="mypurchase"),
     path('comming_soon/', comming_soon, name="comming_soon")

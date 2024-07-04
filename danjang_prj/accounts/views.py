@@ -41,7 +41,9 @@ def logout_view(request):
 def mypage(request):
     try:
         myportfolio = Portfolio.objects.get(user=request.user)
-        return render(request, 'accounts/mypage.html', {'myportfolio' : myportfolio})
+        likes = Like.objects.filter(user=request.user)
+        videos = [like.video for like in likes]
+        return render(request, 'accounts/mypage.html', {'myportfolio' : myportfolio, "likes" : likes, "videos" : videos})
     except Portfolio.DoesNotExist:
         return render(request, 'accounts/mypage.html')
 
@@ -171,27 +173,12 @@ def delete_my_photo(request, id):
     photo.delete()
     return redirect('accounts:update_myportfolio')
 
-# 포트폴리오 보기
-def portfolio_list(request):
-    portfolio = Portfolio.objects.all().order_by('-created_at')
-    return render(request,"portfolio_list.html", {"portfolio" : portfolio})
 
-# 상세 포트폴리오
-def portfolio_detail(request, id):
-    portfolio = get_object_or_404(Portfolio, id = id)
-    return render(request, "portfolio_detail.html", {"portfolio":portfolio})
-
-
-# 찜
-def mylike(request, id):
-    if request.user.is_authenticated:
-        video = get_object_or_404(Video, id = id)
-        if video.like.filter(id = request.user.id).exists():
-            video.like.remove(request.user)
-        else:
-            video.like.add(request.user)
-        return redirect('accounts/mylike.html')
-    return render(request, 'accounts/mylike.html')
+# 내 찜
+def mylike(request):
+    likes = Like.objects.filter(user=request.user)
+    videos = [like.video for like in likes]
+    return render(request, 'accounts/mylike.html', {"likes" : likes, "videos" : videos})
 
 # 기록
 def myviewhistory(request):

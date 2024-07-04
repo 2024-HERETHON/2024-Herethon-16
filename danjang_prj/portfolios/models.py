@@ -70,7 +70,12 @@ class Video(models.Model): # 포트폴리오 video
     portfolio = models.ForeignKey(to = Portfolio, on_delete=models.CASCADE, related_name="videos")
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     like = models.ManyToManyField(to = User, through="Like", related_name="liked_videos") # 찜
+    views = models.IntegerField(default=0) # 조회수
 
+    def increase_views(self):
+        self.views += 1
+        self.save()
+        
     def __str__(self):
         return self.title
 
@@ -82,3 +87,9 @@ class Photo(models.Model):
 class Like(models.Model):
     video = models.ForeignKey(to=Video, on_delete=models.CASCADE, related_name="video_likes")
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="user_likes")
+'''
+class WatchHistory(models.Model):
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='watch_history')
+    video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name='watch_history')
+    watched_at = models.DateTimeField(auto_now_add=True)
+'''
