@@ -5,6 +5,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from portfolios.models import *
 
+# 로그인한 자에게만 권한 주는 거 까먹지 말기
+
 def comming_soon(request):
     return render(request, 'accounts/comming_soon.html')
 
