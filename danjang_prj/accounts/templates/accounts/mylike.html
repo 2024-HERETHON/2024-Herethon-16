@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- nav bar -->
+    <a href="{% url 'videos:video_list' %}">DANJANG</a>
+    <form action="{% url 'videos:search' %}">
+        <input name="data" size="20" value=""></input>
+        <input type="submit" value="검색" >
+    </form>
+    <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
+    <a href="{% url 'accounts:mypage' %}">내 정보</a>
+    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+    <hr>
+    <!-- 본문 -->
+    찜한 콘텐츠<br>
+    {% if videos %}
+    
+    {% for video in videos %}
+    <a href="{% url 'videos:video_detail' video.id %}">
+        <video width="320" height="240">
+            <source src="{{ video.video.url }}" type="video/mp4">
+        </video>
+        {{ video.title }}
+        </a>
+    {% endfor %}
+    
+    {% else %}
+        <p>찜한 콘텐츠 없음</p>
+    {% endif %}
+
+</body>
+</html>

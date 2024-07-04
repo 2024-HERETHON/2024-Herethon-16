@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- nav bar -->
+    <a href="{% url 'videos:video_list' %}">DANJANG</a>
+    <form action="{% url 'videos:search' %}">
+        <input name="data" size="20" value=""></input>
+        <input type="submit" value="검색" >
+    </form>
+    <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
+    <a href="{% url 'accounts:mypage' %}">내 정보</a>
+    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+    <hr>
+    <!-- 본문 -->
+    <form method="GET">
+        <b>전문분야 필터</b><br>
+        {% for role in roles %}
+            <input type="checkbox" name="roles" value="{{ role.id }}"
+                {% if role.id in selected_roles %}checked{% endif %}>
+            {{ role.name }}
+        {% endfor %}
+        <button type="submit">필터 적용</button>
+    </form>
+    <hr>
+    {% for portfolio in portfolios %}
+        이름: {{ portfolio.name }}<br>
+        전문 분야: 
+        {% for role in portfolio.role.all %}
+        {{ role.name }}
+        {% endfor %}<br>
+        <a href="{% url 'portfolios:portfolio_detail' portfolio.id %}">상세 포트폴리오</a>
+        <br>
+        {% if portfolio.profile_photo %}
+        프로필 사진: <img width="320" height="240" src="{{ portfolio.profile_photo.url }}"><br><br>
+        {% endif %}
+        <br>
+        한줄 소개: {{ portfolio.one_line }}<br>
+        <br>
+        
+        경력사항<br>
+        <table>
+            <thead>
+                <tr>
+                    <th>경력</th>
+                    <th>역할</th>
+                    <th>연도</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% csrf_token %}
+                {% for career in portfolio.careers.all|slice:":3" %}
+                <tr>
+                    <td>{{ career.career_title }}</td>
+                    <td>{{ career.career_role }}</td>
+                    <td>{{ career.career_year }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        <!--
+        {% if portfolio.photos.all %}
+        
+        <br>
+            {% for photo in portfolio.photos.all %}
+                <img width="320" height="320" src="#">
+            {% endfor %} 
+        {% endif %}-->
+        <b>대표작</b>
+        <br>
+        {% if portfolio.videos.all %}
+        
+            {% for video in portfolio.videos.all|slice:":3" %}
+            <a href="{% url 'videos:video_detail' video.id %}">
+                <video width="320" height="240">
+                    <source src="{{ video.video.url }}" type="video/mp4">
+                </video>
+                {{ video.title }}
+            </a>
+            {% endfor %}
+        {% endif %}
+        <hr>
+    {%endfor%}
+    
+</body>
+</html>

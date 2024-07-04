@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- nav bar -->
+    <a href="{% url 'videos:video_list' %}">DANJANG</a>
+    <form action="{% url 'videos:search' %}">
+        <input name="data" size="20" value=""></input>
+        <input type="submit" value="검색" >
+    </form>
+    <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
+    <a href="{% url 'accounts:mypage' %}">내 정보</a>
+    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+    <hr>
+    <!-- 본문 -->
+    <hr>
+    <form method="POST" action="{% url 'accounts:create_my_video' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        동영상 - <input type="file" name="video"><br>
+        제목: <input type="text" name="title"><br>
+        출연진: <input type="text" name="cast"><br>
+        스탭: <input type="text" name="staff"><br>
+        키워드: <input type="text" name="keyword"><br>
+        시놉시스: <input type="text" name="synopsis"><br>
+        <input type="submit" value="업로드하기" />
+    </form>
+</body>
+</html>
