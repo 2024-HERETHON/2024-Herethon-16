@@ -41,7 +41,7 @@
     <br>
     {% if watch_videos %}
     
-    {% for watch_video in watch_videos %}
+    {% for watch_video in watch_videos|slice:":3" %}
     <a href="{% url 'videos:video_detail' watch_video.id %}">
         <video width="320" height="240">
             <source src="{{ watch_video.video.url }}" type="video/mp4">
