@@ -17,7 +17,6 @@
     <a href="{% url 'accounts:logout' %}">로그아웃</a>
     <hr>
     <!-- 본문 -->
-    <hr>
     <form method="POST" action="{% url 'accounts:create_my_video' %}" enctype="multipart/form-data">
         {% csrf_token %}
         동영상 - <input type="file" name="video"><br>
