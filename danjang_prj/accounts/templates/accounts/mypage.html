@@ -8,11 +8,15 @@
 <body>
     <!-- nav bar -->
     <a href="{% url 'videos:video_list' %}">DANJANG</a>
-    검색창
+    <form action="{% url 'videos:search' %}">
+        <input name="data" size="20" value=""></input>
+        <input type="submit" value="검색" >
+    </form>
     <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
     <a href="{% url 'accounts:mypage' %}">내 정보</a>
     <a href="{% url 'accounts:logout' %}">로그아웃</a>
     <hr>
+    <!-- 본문 -->
 
     nickname: {{ request.user.nickname }}<br>
     

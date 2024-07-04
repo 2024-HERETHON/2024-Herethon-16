@@ -9,12 +9,15 @@
 <body>
     <!-- nav bar -->
     <a href="{% url 'videos:video_list' %}">DANJANG</a>
-    검색창
+    <form action="{% url 'videos:search' %}">
+        <input name="data" size="20" value=""></input>
+        <input type="submit" value="검색" >
+    </form>
     <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
     <a href="{% url 'accounts:mypage' %}">내 정보</a>
     <a href="{% url 'accounts:logout' %}">로그아웃</a>
     <hr>
-    <!-- 구매 안한 상태에서 누르면 팝업창 뜨도록 구현해야함 -->
+    <!-- 본문 -->
     <a href="#">
         <video width="320" height="240" controls>
             <source src="{{ video.video.url }}" type="video/mp4">
