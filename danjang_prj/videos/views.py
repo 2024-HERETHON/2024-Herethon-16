@@ -29,7 +29,8 @@ def like(request, id):
 
 def search(request):
     entered_text = request.GET['data']
-    portfolios = Portfolio.objects.filter(Q(name__contains = entered_text))
+    portfolios = Portfolio.objects.filter(Q(name__contains = entered_text) | Q(careers__career_title__contains=entered_text))
+
     videos = Video.objects.filter(Q(title__contains = entered_text) | Q(cast__contains = entered_text) | Q(staff__contains = entered_text) | Q(keyword__contains = entered_text) | Q(synopsis__contains = entered_text) | Q(staff__contains = entered_text))
 
     return render(request, "videos/search.html", {'portfolios': portfolios,'videos': videos, 'entered_text': entered_text})

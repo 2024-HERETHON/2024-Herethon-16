@@ -26,7 +26,19 @@
     {% empty %} 검색된 영상 콘텐츠가 없습니다.
     {% endfor %} 
     <hr>
-
+    <h1>포트폴리오</h1>
+    {% for portfolio in portfolios %}
+    <a href="{% url 'portfolios:portfolio_detail' portfolio.id %}">
+        {{ portfolio.name }}<br>
+        {% for role in portfolio.role.all %}
+        {{ role.name }}
+        {% endfor %}
+        {% for career in portfolio.careers.all|slice:":3" %}
+    <li>{{ career.career_title }}</li>
+        {% endfor %}
+    </a><br>
+    {% empty %} 검색된 포트폴리오가 없습니다.
+    {% endfor %} 
     
 </body>
 </html>
