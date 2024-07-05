@@ -1,37 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>영화 수정 페이지</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/edit.css' %}" />
 </head>
 <body>
-    <!-- nav bar -->
-    <a href="{% url 'videos:video_list' %}">DANJANG</a>
-    <form action="{% url 'videos:search' %}">
-        <input name="data" size="20" value=""></input>
-        <input type="submit" value="검색" >
-    </form>
-    <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
-    <a href="{% url 'accounts:mypage' %}">내 정보</a>
-    <a href="{% url 'accounts:logout' %}">로그아웃</a>
-    <hr>
-    <!-- 본문 -->
-    <hr>
-    <form method="POST" action="{% url 'accounts:update_my_video' post.id %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% if post.video %}
-        기존 동영상 : <video width="320" height="240" controls>
-            <source src="{{ post.video.url }}" type="video/mp4"><br><br>
-        </video>
-        {% endif %}<br><br>
-        비디오 변경 - <input type="file" name="video"><br><br>
-        제목: <input type="text" value="{{ post.title }}" name="title"><br>
-        출연진: <input type="text" value="{{ post.cast }}" name="cast"><br>
-        스탭: <input type="text" value="{{ post.staff }}" name="staff"><br>
-        키워드: <input type="text" value="{{ post.keyword }}" name="keyword"><br>
-        시놉시스: <input type="text" value="{{ post.synopsis }}" name="synopsis"><br>
-        <input type="submit" value="수정하기" />
-    </form>
+    <div class="wrapper">
+        <div class="sidebar"></div>
+        <div class="container">
+            <div class="header">
+                <a href="{% url 'videos:video_list' %}">
+                    <img src="{% static 'images/logo.png' %}" alt="로고">
+                </a>
+                <div class="search-container">
+                    <form action="{% url 'videos:search' %}">
+                        <img src="{% static 'icons/search.png' %}">
+                        <input id="search" name="data" size="20"placeholder="검색어를 입력해주세요."></input>
+                        <input id="enter" type="submit" value="검색"  >
+                    </form>
+                </div>
+                <div class="nav-links">
+                    <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
+                    <a href="{% url 'accounts:mypage' %}">내 정보</a>
+                    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+                </div>
+            </div>
+            <div class="main-content">
+                <form method="POST" action="{% url 'accounts:update_my_video' post.id %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="upload-section">
+                        <div class="upload-item">
+                            <label class="upload-label">기존 영상</label>
+                            {% if post.video %}
+                            <video width="320" height="240" controls>
+                                <source src="{{ post.video.url }}" type="video/mp4">
+                            </video><br><br>
+                            {% endif %}
+                        </div>
+                        <div class="upload-item">
+                            <label class="upload-label">영상 변경</label>
+                            <label for="video-upload" class="custom-file-upload">파일선택</label>
+                            <!-- accpet로 비디오 파일만 업로드할 수 있게 함 -->
+                            <!-- 파일 선택 시 showFileName()함수 호출로 파일명이 보이게 함-->
+                            <input id="video-upload" type="file" name="video" accept="video/mp4,video/mkv, video/x-m4v,video/*" onchange="showFileName()">
+                            <span class="file-name" id="file-name"></span>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label class="title-label">영화 제목</label>
+                            <input type="text" id="movie-title" class="title-input" name="title" value="{{ post.title }}">
+                        </div>
+                        <div class="form-group">
+                            <label class="cast-label">출연진</label>
+                            <input type="text" id="actors" class="cast-input" name="cast" value="{{ post.cast }}">
+                            <label class="staff-label">스탭</label>
+                            <input type="text" id="staff" class="staff-input" name="staff" value="{{ post.staff }}">
+                        </div>
+                        <div class="form-group">
+                            <label class="keyword-label">키워드</label>
+                            <input type="text" id="keywords" class="keyword-input" name="keyword" value="{{ post.keyword }}">
+                        </div>
+                    </div>                        
+                    <div class="synopsis-section">
+                        <label>시놉시스</label>
+                        <textarea id="synopsis" name="synopsis">{{ post.synopsis }}</textarea>
+                    </div>
+                    <div class="save-button-container">
+                        <input class="save-button" type="submit" value="수정하기">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="sidebar"></div>
+    </div>
+
+    <script>
+        function showFileName() {
+            var input = document.getElementById('video-upload');
+            var fileName = input.files[0].name;
+            document.getElementById('file-name').textContent = fileName;
+        }
+    </script>
 </body>
 </html>
