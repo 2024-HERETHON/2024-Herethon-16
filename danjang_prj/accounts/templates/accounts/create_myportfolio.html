@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- nav bar -->
+    <a href="{% url 'videos:video_list' %}">DANJANG</a>
+    <form action="{% url 'videos:search' %}">
+        <input name="data" size="20" value=""></input>
+        <input type="submit" value="검색" >
+    </form>
+    <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
+    <a href="{% url 'accounts:mypage' %}">내 정보</a>
+    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+    <hr>
+    <!-- 본문 -->
+    <form method="POST" action="{% url 'accounts:create_myportfolio' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        이름: <input type="text" name="name"><br>
+        전문 분야: <select name="role">
+            {% for role in roles %}
+            <option value="{{ role.id }}">{{ role.name }}</option>
+            {% endfor %}
+        </select><br>
+        이미지 - <input type="file" name="profile_photo"><br>
+        이메일: <input type="text" name="email"><br>
+        한 줄 소개: <input type="text" name="one_line"><br>
+        소개 글: <input type="text" name="intro"><br>
+        <input type="submit" value="포트폴리오 등록">   
+    </form>
+</body>
+</html>

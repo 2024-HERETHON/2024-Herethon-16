@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영화 검색 페이지</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/search.css' %}" />
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sidebar"></div>
+        <div class="container">
+            <div class="header">
+                <a href="{% url 'videos:video_list' %}">
+                    <img src="{% static 'images/logo.png' %}" alt="로고">
+                </a>
+                <div class="search-container">
+                    <form action="{% url 'videos:search' %}">
+                        <img src="{% static 'icons/search.png' %}">
+                        <input id="search" name="data" size="20"placeholder="검색어를 입력해주세요."></input>
+                        <input id="enter" type="submit" value="검색"  >
+                    </form>
+                </div>
+                <div class="nav-links">
+                    <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
+                    <a href="{% url 'accounts:mypage' %}">내 정보</a>
+                    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="section">
+                    <h2>작품</h2>
+                    <div class="grid">
+                        {% for video in videos %}
+                        <div class="grid-item">
+                            <a href="{% url 'videos:video_detail' video.id %}">
+                                <video width="220" height="133">
+                                    <source src="{{ video.video.url }}" type="video/mp4">
+                                </video>
+                                <div class="title">{{ video.title }}</div>
+                            </a>
+                        </div>
+                        {% empty %}
+                        <p>검색된 영상 콘텐츠가 없습니다.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+                <img src="{% static 'images/line.png' %}" alt="line" class="line-separator">
+                <div class="section">
+                    <h2>포트폴리오</h2>
+                    <div class="portfolio-grid">
+                        {% for portfolio in portfolios %}
+                        <div class="portfolio-item">
+                            <a href="{% url 'portfolios:portfolio_detail' portfolio.id %}" style="text-decoration:none;">
+                                {% if portfolio.profile_photo %}
+                                <img src="{{ portfolio.profile_photo.url }}" alt="배우" width="320" height="240">
+                                {% else %}
+                                <img src="{% static 'images/actor.png' %}" alt="배우" width="320" height="240">
+                                {% endif %}
+                                <div class="description">
+                                    <p class="name">{{ portfolio.name }}</p>
+                                    <div class="roles">
+                                        {% for role in portfolio.role.all %}
+                                        <span>{{ role.name }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="movies">
+                                        {% for career in portfolio.careers.all|slice:":3" %}
+                                        <p>- {{ career.career_title }}</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% empty %}
+                        <p>검색된 포트폴리오가 없습니다.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar"></div>
+    </div>
+</body>
+</html>

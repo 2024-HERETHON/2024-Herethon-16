@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영화 등록 페이지</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/edit.css' %}" />
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sidebar"></div>
+        <div class="container">
+            <div class="header">
+                <a href="{% url 'videos:video_list' %}">
+                    <img src="{% static 'images/logo.png' %}" alt="로고">
+                </a>
+                <div class="search-container">
+                    <form action="{% url 'videos:search' %}">
+                        <img src="{% static 'icons/search.png' %}">
+                        <input id="search" name="data" size="20"placeholder="검색어를 입력해주세요."></input>
+                        <input id="enter" type="submit" value="검색"  >
+                    </form>
+                </div>
+                <div class="nav-links">
+                    <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
+                    <a href="{% url 'accounts:mypage' %}">내 정보</a>
+                    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+                </div>
+            </div>
+            <div class="main-content">
+                <form method="POST" action="{% url 'accounts:create_my_video' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="upload-section">
+                        <div class="upload-item">
+                            <label class="upload-label">영상 업로드</label>
+                            <label for="video-upload" class="custom-file-upload">파일선택</label>
+                            <!-- accpet로 비디오 파일만 업로드할 수 있게 함 -->
+                            <!-- 파일 선택 시 showFileName()함수 호출로 파일명이 보이게 함-->
+                            <input id="video-upload" type="file" name="video" accept="video/mp4,video/mkv, video/x-m4v,video/*" onchange="showFileName()">
+                            <span class="file-name" id="file-name"></span>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label class="title-label">영화 제목</label>
+                            <input type="text" id="movie-title" class="title-input" name="title">
+                        </div>
+                        <div class="form-group">
+                            <label class="cast-label">출연진</label>
+                            <input type="text" id="actors" class="cast-input" name="cast">
+                            <label class="staff-label">스탭</label>
+                            <input type="text" id="staff" class="staff-input" name="staff">
+                        </div>
+                        <div class="form-group">
+                            <label class="keyword-label">키워드</label>
+                            <input type="text" id="keywords" class="keyword-input" name="keyword">
+                        </div>
+                    </div>                        
+                    <div class="synopsis-section">
+                        <label>시놉시스</label>
+                        <textarea id="synopsis" name="synopsis"></textarea>
+                    </div>
+                    <div class="save-button-container">
+                        <input class="save-button" type="submit" value="업로드하기">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="sidebar"></div>
+    </div>
+
+    <script>
+        function showFileName() {
+            var input = document.getElementById('video-upload');
+            var fileName = input.files[0].name;
+            document.getElementById('file-name').textContent = fileName;
+        }
+    </script>
+</body>
+</html>

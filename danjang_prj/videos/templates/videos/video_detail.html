@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영화 상세 페이지</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/detail.css' %}" />
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sidebar"></div>
+        <div class="container">
+            <div class="header">
+                <a href="{% url 'videos:video_list' %}">
+                    <img src="{% static 'images/logo.png' %}" alt="로고">
+                </a>
+                <div class="search-container">
+                    <form action="{% url 'videos:search' %}">
+                        <img src="{% static 'icons/search.png' %}">
+                        <input id="search" name="data" size="20"placeholder="검색어를 입력해주세요."></input>
+                        <input id="enter" type="submit" value="검색"  >
+                    </form>
+                </div>
+                <div class="nav-links">
+                    <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
+                    <a href="{% url 'accounts:mypage' %}">내 정보</a>
+                    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="media-placeholder">
+                    <video width="1046" height="520" controls>
+                        <source src="{{ video.video.url }}" type="video/mp4">
+                    </video>
+                </div>
+                <div class="movie-header">
+                    <div class="movie-title" id="movie-title">{{ video.title }}</div>
+                    <button class="like-button" id="likeButton" onclick="toggleLike()">
+                        {% if request.user in video.like.all %}
+                        <img src="{% static 'icons/full_heart.png' %}" alt="찜 취소">
+                        {% else %}
+                        <img src="{% static 'icons/empty_heart.png' %}" alt="찜하기">
+                        {% endif %}
+                    </button>
+                </div>
+                <div class="details-container">
+                    <div class="details">
+                        <span class="actor-label">출연진</span> <span id="actors" class="actor-content">{{ video.cast }}</span>
+                        <span class="staff-label">스탭</span> <span id="staff" class="staff-content">{{ video.staff }}</span>
+                    </div>
+                </div>
+                <div class="details">
+                    <span class="keyword-label">키워드</span> <span id="keywords" class="keyword-content">{{ video.keyword }}</span>
+                </div>
+                <div class="synopsis">
+                    <span class="synopsis-label">시놉시스</span>
+                    <p id="synopsis">{{ video.synopsis }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar"></div>
+    </div>
+
+    <script>
+        function toggleLike() {
+            const likeButton = document.getElementById('likeButton');
+            const likeIcon = likeButton.querySelector('img');
+            const isLiked = likeIcon.alt === '찜 취소';
+
+            fetch("{% url 'videos:like' video.id %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    if (isLiked) {
+                        likeIcon.src = "{% static 'icons/empty_heart.png' %}";
+                        likeIcon.alt = '찜하기';
+                    } else {
+                        likeIcon.src = "{% static 'icons/full_heart.png' %}";
+                        likeIcon.alt = '찜 취소';
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
