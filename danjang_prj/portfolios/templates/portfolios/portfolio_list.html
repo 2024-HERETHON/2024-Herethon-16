@@ -21,11 +21,8 @@
     <form method="GET">
         <b>전문분야 필터</b><br>
         {% for role in roles %}
-            <input type="checkbox" name="roles" value="{{ role.id }}"
-                {% if role.id in selected_roles %}checked{% endif %}>
-            {{ role.name }}
+            <a href="?roles={{ role.id }}">{{ role.name }}</a>
         {% endfor %}
-        <button type="submit">필터 적용</button>
     </form>
     <hr>
     {% for portfolio in portfolios %}
