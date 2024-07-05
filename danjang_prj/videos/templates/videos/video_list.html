@@ -5,48 +5,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>video_list</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/video_list.css' %}" />
 </head>
 <body>
-    <!-- nav bar -->
-    <a href="{% url 'videos:video_list' %}">DANJANG</a>
-    <form action="{% url 'videos:search' %}">
-        <input name="data" size="20" value=""></input>
-        <input type="submit" value="검색" >
-    </form>
-    <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
-    <a href="{% url 'accounts:mypage' %}">내 정보</a>
-    <a href="{% url 'accounts:logout' %}">로그아웃</a>
-    <hr>
-    <!-- 본문 -->
-    <b>오늘의 추천 작품</b><br>
-    {% for video in random_videos %}
-    <a href="{% url 'videos:video_detail' video.id %}">
-        <video width="320" height="240">
-            <source src="{{ video.video.url }}" type="video/mp4">
-        </video>
-        {{ video.title }}
-    </a>
-    {%endfor%} 
-    <hr>
-    <b>랭킹</b><br>
-    {% for video in ranking_videos %}
-        <a href="{% url 'videos:video_detail' video.id %}">
-            <video width="320" height="240">
-                <source src="{{ video.video.url }}" type="video/mp4">
-            </video>
-            {{ video.title }}
-        </a>
-    {% endfor %}
+    <div class="wrapper">
+        <div class="sidebar"></div>
+        <div class="container">
+          <!-- nav bar -->
+          <div class="header">
+            <a href="{% url 'videos:video_list' %}">
+                <img src= "{% static 'images/logo.png' %}">
+            </a>
+            <!--search 검색-->
+            <div class="search-container">
+                <form action="{% url 'videos:search' %}">
+                    <img src="{% static 'icons/search.png' %}">
+                    <input id="search" name="data" size="20"placeholder="검색어를 입력해주세요."></input>
+                    <input id="enter" type="submit" value="검색"  >
+                </form>
+            </div>
+            <!--nav-links-->
+            <div class="nav-links">
+                <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
+                <a href="{% url 'accounts:mypage' %}">내 정보</a>
+                <a href="{% url 'accounts:logout' %}">로그아웃</a>
+            </div>
+        </div>
+        
+        <!-- 본문 -->
+    <main>
+        <div class="contents">
+          <!--Today's movies-->
+          <div class="row">
+            <h2 class="today-movies">오늘의 추천 작품</h2>
+            <!--영화포스터와 제목 나열-->
+            <div class="row_posters">
+                <!--영화포스터+제목 한세트-->
+                {% for video in random_videos %}
+                <a class="posterAndName" href="{% url 'videos:video_detail' video.id %}">
+                    <div class="poster">
+                        <video>
+                            <source src="{{ video.video.url }}" type="video/mp4">
+                        </video>
+                    </div>
+                    <figcaption>{{ video.title }}</figcaption>
+                </a>
+                {%endfor%} 
+            </div>
+        </div>
+        
+         <!--Ranking-->
+         <div class="row">
+            <h2 class="movie-ranking">인기 순위</h2>
+            <!--영화포스터와 제목 나열-->
+            <div class="row_posters">
+                <!--영화포스터+제목 한세트-->
+                {% for video in ranking_videos %}
+                <a class="posterAndName" href="{% url 'videos:video_detail' video.id %}">
+                    <div class="poster">
+                        <video>
+                            <source src="{{ video.video.url }}" type="video/mp4">
+                        </video>
+                    </div>
+                    <figcaption>{{ video.title }}</figcaption>
+                </a>
+            {% endfor %}
+            </div>
+        </div>
 
-    <hr>
-    <b>신작</b><br>
-    {% for video in new_videos %}
-    <a href="{% url 'videos:video_detail' video.id %}">
-        <video width="320" height="240">
-            <source src="{{ video.video.url }}" type="video/mp4">
-        </video>
-        {{ video.title }}
-    </a>
-    {%endfor%}
+    <!--new movies-->
+    <div class="row">
+        <h2 class="new-movies">신작</h2>
+        <!--영화포스터와 제목 나열-->
+        <div class="row_posters">
+            <!--영화포스터+제목 한세트-->
+            {% for video in new_videos %}
+            <a class="posterAndName"  href="{% url 'videos:video_detail' video.id %}">
+                <div class="poster">
+                    <video>
+                        <source src="{{ video.video.url }}" type="video/mp4">
+                    </video>
+                </div>
+                <figcaption>{{ video.title }}</figcaption> 
+            </a>
+            {%endfor%}
+        </div>
+    </div>
+</div>
+</div>
+<div class="sidebar"></div>
+
+</div>
 </body>
 </html>
