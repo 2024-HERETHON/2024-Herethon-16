@@ -5,17 +5,16 @@ from django.contrib.auth.decorators import login_required
 
 # 포트폴리오 보기
 @login_required
-def video_list(request):
-    videos = list(Video.objects.all())
-    if len(videos) < 10:
-        random_videos = videos
-        ranking_videos = sorted(videos, key=lambda x: x.views, reverse=True)[:10]
-        new_videos = sorted(videos, key=lambda x: x.created_at, reverse=True)[:10]
+def portfolio_list(request):
+    roles = Role.objects.all()
+    selected_role_id = request.GET.get('roles')
+    if selected_role_id:
+        selected_role = get_object_or_404(Role, id=selected_role_id)
+        portfolios = selected_role.portfolios.all().order_by('-created_at').prefetch_related('careers', 'videos', 'photos')
+        return render(request, "portfolios/portfolio_list.html", {"portfolios": portfolios, 'roles': roles, 'selected_role': selected_role})
     else:
-        random_videos = random.sample(videos, 10)
-        ranking_videos = sorted(videos, key=lambda x: x.views, reverse=True)[:10]
-        new_videos = sorted(videos, key=lambda x: x.created_at, reverse=True)[:10]
-    return render(request, "videos/video_list.html", {'videos': videos, 'random_videos': random_videos, 'ranking_videos': ranking_videos, 'new_videos': new_videos})
+        portfolios = Portfolio.objects.all().order_by('-created_at').prefetch_related('careers', 'videos', 'photos')
+        return render(request, "portfolios/portfolio_list.html", {"portfolios": portfolios, 'roles': roles})
 
 # 상세 포트폴리오
 @login_required
