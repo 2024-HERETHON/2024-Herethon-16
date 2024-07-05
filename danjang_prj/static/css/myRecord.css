@@ -1,0 +1,224 @@
+/* 기본 스타일 설정 */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+}
+.wrapper {
+  display: flex;
+  width: 100%;
+}
+.sidebar {
+  background-image: url("../../static/images/side.png");
+  background-size: cover;
+  width: 300px;
+  min-height: 100vh;
+}
+.container {
+  max-width: 1080px;
+  margin: 0 15px; /* 전체 컨테이너 좌우 여백*/
+  padding: 70px 0;
+  flex: 1;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header img {
+  /* 로고 */
+  width: 274px;
+  height: 39.36px;
+}
+.nav-links {
+  display: flex;
+  gap: 20px; /* 링크 사이의 간격 조절 */
+  margin-right: 20px;
+}
+.nav-links a {
+  /* 하이퍼 링크 */
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+  position: relative; /* ::after 가상 요소를 배치하기 위한 상대 위치 설정 */
+}
+.nav-links a::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2.6px;
+  background-color: #4edd3a;
+  position: absolute;
+  bottom: -6px; /* 텍스트 아래에 배치 */
+  left: 0;
+  transition: opacity 0.3s;
+  opacity: 1; /* 기본 상태에서 보이도록 설정 */
+}
+.search-container {
+  /* 검색 컨테이너 */
+  width: 446px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  background-color: #d9d9d9;
+  padding-left: 5px;
+  border: none;
+  border-radius: 10px;
+}
+
+.search-container img {
+  width: 20px;
+  height: 20px;
+  margin: 8px;
+}
+
+.search-container form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+#search {
+  /* 검색창 */
+  width: 100%;
+  height: 25px;
+  background-color: #d9d9d9;
+  border: none;
+  border-radius: 10px;
+  padding: 5px; /* padding을 추가하여 placeholder 텍스트가 잘 보이게 합니다 */
+  color: black; /* input 텍스트 색상 */
+}
+
+#search::placeholder {
+  color: #e2dbdb !important; /* placeholder 텍스트 색상 */
+  opacity: 1;
+}
+
+#enter {
+  display: none;
+}
+
+.main-content {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+/*main*/
+.contents {
+  padding-top: 30px;
+}
+/* ## 프로필*/
+.myProfile {
+  margin-left: 38%;
+}
+#myPhoto {
+  float: left;
+  width: 125px;
+  height: 125px;
+  border-radius: 70%;
+  overflow: hidden;
+  background-color: gray;
+}
+#myPhoto img {
+  width: 100%;
+  height: 100%;
+}
+#commit {
+  visibility: hidden;
+  position: relative;
+  left: -120px;
+  top: 90px;
+}
+#add {
+  visibility: hidden;
+  position: relative;
+  left: -80px;
+  top: 90px;
+}
+#nickname {
+  width: 200px;
+  margin-bottom: 0;
+  padding-left: 5px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  top: -20px; /* 위치를 위로 올리기 위해 top 값을 음수로 설정 */
+}
+#nickname h1 {
+  width: 100%;
+  padding: 0; /* 수정된 부분 */
+  margin: 0;
+  font-size: 3ch;
+}
+/*내 포트폴리오 보기 - 수정*/
+#modify {
+  position: relative;
+  left: 0;
+  top: -15px; /* 위치를 위로 올리기 위해 top 값을 음수로 설정 */
+  margin-left: 5px;
+  width: 200px;
+  height: auto;
+}
+
+/*구분선*/
+.line {
+  margin-top: 20px;
+  margin-left: 8%;
+  width: 85%;
+}
+/*나의 기록*/
+.row {
+  margin-left: 10%;
+}
+.row h3 {
+  color: black;
+  margin-left: 70px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+.posterAndName {
+  margin: 0 7px;
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+  width: calc(42%); /* 50% 폭에서 양쪽 마진을 빼줌 */
+  display: flex;
+  flex-direction: column; /* 수직 정렬 */
+  margin-bottom: 20px;
+}
+.poster {
+  width: 100%;
+  height: 200px;
+  transition: transform 450ms;
+  border-radius: 15px;
+  background-color: gray;
+}
+.poster video {
+  width: 100%;
+  height: 100%;
+}
+.posterAndName figcaption {
+  margin-left: 5px;
+  margin-top: 5px;
+}
+.row_posters {
+  display: flex;
+  flex-wrap: wrap; /* 아이템들이 가로로 배치되고 넘치면 다음 줄로 이동 */
+  overflow-y: hidden;
+  overflow-x: hidden;
+  padding: 20px;
+  padding-top: 0px;
+  margin-left: 25px;
+}
+.posterAndName img:hover {
+  transform: scale(1.01);
+}
+.row_posters::-webkit-scrollbar {
+  display: none;
+}
