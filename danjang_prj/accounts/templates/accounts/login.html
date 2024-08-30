@@ -4,16 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
   </head>
   <body>
-    <h2>로그인</h2>
-    <form method="post" action="{% url 'accounts:login' %}">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">로그인</button>
-    </form>
-    <p>
-      <a href="{% url 'accounts:signup' %}">회원가입</a>
-    </p>
+    <div class="header">
+      <div class="logofield">
+          <img src="../static/images/logo_white.svg" alt="로고">
+          <h1>로그인</h1>
+      </div>
+      <div class="film"><img src="../static/images/film.svg" alt="필름"></div>
+  </div>
+
+  <div class="main">
+      <h2>다시 오신 것을 환영합니다! <br> 여러분의 다음 이야기를 기다립니다.</h2>
+      <div class="enterfield">
+        <form method="post" action="{% url 'accounts:login' %}">
+            {% csrf_token %}
+            <h4>아이디</h4> 
+            <input type="text" name="username" placeholder="이메일을 입력해 주세요." id="username">
+            <h4>비밀번호</h4>
+            <input type="password" name="password" placeholder="비밀번호를 입력해 주세요." id="password">
+            <div class="changebtn">
+                <button type="submit" id="login"> 로그인 </button>
+                <h5 class="h5"><a href="{% url 'accounts:signup' %}">회원가입</a></h5>
+            </div>
+        </form>
+    </div>    
+  </div>
+
   </body>
 </html>

@@ -4,10 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
 </head>
 <body>
-    <h1><a href="{% url 'accounts:index' %}">DANJANG</a></h1>
-    <a href="{% url 'accounts:login' %}">로그인</a><br>
-    <a href="{% url 'accounts:signup' %}">회원가입</a>
+    <div class="login">
+        <div class="logo"><img src="../static/images/logo_white.svg"></div>
+        <div class="button-container">
+            <button id="loginbtn" onclick="navigateToLogin()">로그인</button>
+            <button id="signbtn" onclick="navigateToSignUp()"> 회원가입 </button>
+        </div>
+    </div>
+
+    <script>
+        function navigateToLogin() {
+            window.location.href = "{% url 'accounts:login' %}";
+        }
+
+        function navigateToSignUp() {
+            window.location.href = "{% url 'accounts:signup' %}";
+        }
+    </script>
+
 </body>
 </html>

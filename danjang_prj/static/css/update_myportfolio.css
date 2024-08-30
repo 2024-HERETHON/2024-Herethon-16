@@ -1,0 +1,420 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pretendard-ExtraBold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+
+/* 기본 스타일 설정 */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+}
+.wrapper {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    background-image: url('../images/side.png');
+    background-size: cover;
+    width: 300px;
+    min-height: 100vh;
+}
+.container {
+    width: 1080px;
+    margin: 0 15px; /* 전체 컨테이너 좌우 여백*/
+    padding: 70px 0;
+    flex: 1;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header img { /* 로고 */
+    width: 274px;
+    height: 39.36px;
+}
+.nav-links {
+    display: flex;
+    gap: 20px; /* 링크 사이의 간격 조절 */
+    margin-right: 20px;
+}
+.nav-links a { /* 하이퍼 링크 */
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+    position: relative; /* ::after 가상 요소를 배치하기 위한 상대 위치 설정 */
+}
+.nav-links a::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2.6px;
+    background-color: #4EDD3A;
+    position: absolute;
+    bottom: -6px; /* 텍스트 아래에 배치 */
+    left: 0;
+    transition: opacity 0.3s;
+    opacity: 1; /* 기본 상태에서 보이도록 설정 */
+}
+.search-container { /* 검색 컨테이너 */
+    width: 446px;
+    justify-content: row; 
+    background-color: #D9D9D9;
+    padding-left: 5px; 
+    border: none;
+    border-radius: 10px;
+    line-height: 50%;
+}
+
+.search-container input[type="image"] {
+    width: 20px; 
+    height: 20px; 
+    padding-top: 10px;
+} 
+
+.search-container input[type="text"] { /* 검색창 */
+    width: 200px;
+    height: 25px;
+    background-color: #D9D9D9;
+    padding: 5px;
+    border: none;
+    border-radius: 10px;
+    line-height: 50%;
+}
+.main-content {
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 8px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column; /* 기존에는 row로 되어 있었음 */
+    align-items: center; /* 아이템들을 세로 가운데 정렬 */
+}
+
+.profile-container {
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    background-image: url('../images/profileback.png');
+    width: 1160px;
+    height: 300px; 
+    margin-top: 70px;
+    margin-left: 51px;
+}
+
+/* ## 프로필*/
+.myProfile {
+    margin-right: 0%;
+  }
+  #myPhoto {
+    float: left;
+    width: 200px;
+    height: 200px;
+    border-radius: 70%;
+    overflow: hidden;
+    background-image: url('../images/profile.png');
+    margin-left: 80px;
+  }
+
+  #myPhoto img {
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+  }
+
+  #add {
+    position: relative;
+    cursor: pointer;
+    left: -13%;
+    top: 145px;
+  }
+
+  #fixedbtn {
+    width: 160px;
+    height: 60px;
+    position: relative;
+    top: -150px;
+    left: 850px;
+    background-color: #4EDD3A;
+    border: 4px solid white;
+    border-radius: 30px;
+    font-family: 'Pretendard-ExtraBold';
+    font-size: 15px;
+}
+
+#fixedbtn:hover {
+    cursor: pointer;
+    background-color: #C8FFC1;
+}
+
+.fix-area{
+    display: flex;
+    flex-direction: column;
+    margin-right: 100px;
+    margin-top: -15px;
+}
+
+
+.optioncontainer {
+    display: flex;
+    align-items: center; 
+}
+
+.optioncontainer label {
+    margin-right: -20px;
+}
+
+.optioncontainer form {
+    display: flex;
+}
+
+.optioncontainer select {
+    width: 150px;
+}
+
+#option {
+    width: 200px; 
+    display: inline-block; 
+    font-size: 30px;
+    font-family: 'Pretendard-ExtraBold';
+}
+
+#options {
+    width: 150px;
+    height: 45px;
+    margin-right: 30px;
+    border-radius: 10px;
+    padding: 3px;
+    border: 2px solid #17B001;
+}
+
+#input_name {
+    width: 150px;
+    height: 40px;
+    margin-left: 20px;
+    border-radius: 10px;
+    border: 2px solid #17B001;
+    padding-left: 10px;
+}
+
+.detail-name {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.detail-name h1 {
+    font-size: 30px;
+    font-family: 'Pretendard-ExtraBold';
+}
+
+#input_intro{
+    width: 450px;
+    height: 40px;
+    border-radius: 10px;
+    border: 2px solid #17B001;
+    padding: 3px;
+    padding-left: 10px;
+}
+
+.email {
+    margin-top: 10px;
+}
+
+.fix-area h5 {
+    font-size: 20px;
+    font-family: 'Pretendard-ExtraBold';
+    margin-top: 10px;
+}
+
+#input_e-mail {
+    width: 150px;
+    height: 40px;
+    margin-left: 20px;
+    border-radius: 10px;
+    border: 2px solid #17B001;
+    padding: 3px;
+    padding-left: 10px;
+}
+
+.all{
+    margin-top: 500px;
+    margin-left: -1100px;
+    z-index: 1000;
+}
+
+.careersection {
+    display: flex;
+}
+
+#plus {
+    z-index: 2;
+}
+
+#plus img {
+    margin-top: 15px;
+    margin-left: 10px;
+    width: 30px;
+    height: auto;
+}
+
+#plus img:hover {
+    cursor: pointer;
+}
+
+.content hr {
+    border: none;
+    height: 4px;
+    background: linear-gradient(to left, #1A6010, #B3FBA9);
+}
+
+.content {
+    max-width: 1200px;
+    margin-top: 30px;
+    padding: 20px;
+}
+
+.career {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+th {
+    font-size: 18px;
+    list-style: none;
+    font-family: 'Pretendard-ExtraBold';
+    margin-bottom: 30px;
+    margin-top: 20px;
+    padding: 15px;
+    text-align: left;
+}
+
+td {
+    margin-bottom: 30px;
+    padding: 15px;
+    text-align: left;
+}
+
+.icon-cell {
+    width: 30px;
+    text-align: center;
+}
+
+.icon-cell img {
+    width: 30px;
+    height: auto;
+    cursor: pointer;
+}
+
+.plusarea {
+    margin-left: 175px;
+    margin-bottom: 30px;
+}
+
+#sec1 {
+    margin-right: 50px;
+    width: 305px;
+    height: 30px;
+    border-radius: 10px;
+    border: 2px solid#17B001;
+    padding: 7px;
+}
+
+#sec2{
+    margin-right: 50px;
+    height: 30px;
+    border-radius: 10px;
+    border: 2px solid#17B001;
+    padding: 7px;
+}
+
+#sec3{
+    height: 30px;
+    border-radius: 10px;
+    border: 2px solid#17B001;
+    padding: 7px;
+}
+
+#Textarea{
+    width: 94%;
+    height: 150px;
+    border: 2px solid #17B001;
+    padding: 30px;
+    resize: none;
+    border-radius: 10px;
+}
+
+.rep {
+    display: flex;
+    margin-bottom: 0;
+}
+
+
+
+.videocontrol {
+    width: 430px;
+    height: 270px;
+    margin: 20px 20px 0 20px;
+    position: relative;
+}
+
+.rebtn {
+    width: 100px;
+    height: 30px;
+    position: relative;
+    background-color: #4EDD3A;
+    border-radius: 30px;
+    font-family: 'Pretendard-ExtraBold';
+    font-size: 12px;
+}
+
+.rebtn:hover {
+    cursor: pointer;
+    background-color: #C8FFC1;
+}
+
+.video-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+.videocontrol .minus img {
+    width: 30px;
+    height: auto;
+}
+
+.videocontrol .minus img:hover {
+   cursor: pointer;
+}
+
+.fixbtn-area {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+    position: relative;
+    top: -280px;
+    z-index: 1;
+}
