@@ -22,7 +22,7 @@ def signup_view(request):
     form = SignUpForm(request.POST)
     if form.is_valid():
         user = form.save()
-        return redirect('accounts:index')
+        return redirect('accounts:login')
     else:
         return render(request, 'accounts/signup.html', {'form' : form})
 

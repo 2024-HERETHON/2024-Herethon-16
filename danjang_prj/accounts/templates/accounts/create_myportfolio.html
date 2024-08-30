@@ -4,32 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/upload_myportfolio.css' %}" />
 </head>
 <body>
-    <!-- nav bar -->
-    <a href="{% url 'videos:video_list' %}">DANJANG</a>
-    <form action="{% url 'videos:search' %}">
-        <input name="data" size="20" value=""></input>
-        <input type="submit" value="검색" >
-    </form>
-    <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
-    <a href="{% url 'accounts:mypage' %}">내 정보</a>
-    <a href="{% url 'accounts:logout' %}">로그아웃</a>
-    <hr>
-    <!-- 본문 -->
-    <form method="POST" action="{% url 'accounts:create_myportfolio' %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        이름: <input type="text" name="name"><br>
-        전문 분야: <select name="role">
-            {% for role in roles %}
-            <option value="{{ role.id }}">{{ role.name }}</option>
-            {% endfor %}
-        </select><br>
-        이미지 - <input type="file" name="profile_photo"><br>
-        이메일: <input type="text" name="email"><br>
-        한 줄 소개: <input type="text" name="one_line"><br>
-        소개 글: <input type="text" name="intro"><br>
-        <input type="submit" value="포트폴리오 등록">   
-    </form>
+    <div class="wrapper">
+        <div class="sidebar"></div>
+        <div class="container">
+            <div class="header">
+                <a href="{% url 'videos:video_list' %}">
+                    <img src="{% static 'images/logo_green.png' %}" alt="로고">
+                </a>
+                <div class="search-container">
+                    <form action="{% url 'videos:search' %}" method="get">
+                        <input type="image" src="{% static 'icons/search.png' %}" alt="검색">
+                        <input type="text" name="data" placeholder="검색어를 입력해 주세요." size="20">
+                    </form>                
+                </div>
+                <div class="nav-links">
+                    <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
+                    <a href="{% url 'accounts:mypage' %}">내 정보</a>
+                    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <form id="portfolioForm" method="POST" action="{% url 'accounts:create_myportfolio' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="profile-container">
+                        <button type="button" id="fixedbtn" onclick="navigateToSubmit()">포트폴리오 등록</button>
+                        <section class="myProfile">
+                            <div id="myPhoto">
+                                {% if user.mypage_image %}
+                                    <img src="{% static 'images/profile.png' %}">
+                                {% else %}
+                                    <div class="profile"><img class="photo" src="{% static 'images/profile.png' %}"  alt="프로필 사진"></div>
+                                {% endif %}
+                            </div>
+                            
+
+                            <!--[+]버튼 클릭 시 파일 선택 실행 -->
+                            <input type="file" name="profile_photo" style="display: none" />
+                            <img
+                            id="add"
+                            src="{% static 'icons/add.png' %}"
+                            onclick="document.all.profile_photo.click()"
+                            ;
+                            />
+                        </section>
+              
+                        <div class="fix-area">
+                            <div class="detail-name">
+                                <div class="optioncontainer">
+                                    <label for="options" id="option">전문 분야 :</label>
+                                    <select id="options" name="role">
+                                        {% for role in roles %}
+                                            <option value="{{ role.id }}">{{ role.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <h1> | </h1> 
+                                <input type="text" placeholder="이름을 입력해 주세요." id ="input_name" name="name">
+                            </div>
+                            <input type="text" placeholder="한 줄 소개" id ="input_intro" name="one_line">
+                            <div class="email">
+                                <h5>E-mail |  <input type="text" placeholder="이메일 입력" id ="input_e-mail" name="email"> </h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <hr>
+                        <h3>소개 글</h3>
+                        <textarea id="Textarea" placeholder="자기 소개 글을 입력해 주세요!" name="intro" rows="4" cols="50" maxlength="500"></textarea>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar"></div>
+
+    <script>
+        function navigateToSubmit() {
+            const form = document.getElementById('portfolioForm');
+            const introField = document.querySelector('textarea[name="intro"]');
+
+            if (!introField.value.trim()) {
+                introField.value = "소개 글이 없습니다.";
+            }
+
+            form.submit();
+        }
+    </script>
 </body>
 </html>

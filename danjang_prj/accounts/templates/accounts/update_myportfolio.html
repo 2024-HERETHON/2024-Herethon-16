@@ -1,91 +1,170 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/update_myportfolio.css' %}" />
 </head>
 <body>
-    <!-- nav bar -->
-    <a href="{% url 'videos:video_list' %}">DANJANG</a>
-    <form action="{% url 'videos:search' %}">
-        <input name="data" size="20" value=""></input>
-        <input type="submit" value="검색" >
-    </form>
-    <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
-    <a href="{% url 'accounts:mypage' %}">내 정보</a>
-    <a href="{% url 'accounts:logout' %}">로그아웃</a>
-    <hr>
+    <div class="wrapper">
+        <div class="sidebar"></div>
+        <div class="container">
+            <div class="header">
+                <a href="{% url 'videos:video_list' %}">
+                    <img src="{% static 'images/logo_green.png' %}" alt="로고">
+                </a>
+                <div class="search-container">
+                    <form action="{% url 'videos:search' %}" method="get">
+                        <input type="image" src="{% static 'icons/search.png' %}" alt="검색">
+                        <input type="text" name="data" placeholder="검색어를 입력해 주세요." size="20">
+                    </form>                
+                </div>
+                <div class="nav-links">
+                    <a href="{% url 'portfolios:portfolio_list' %}">포트폴리오</a>
+                    <a href="{% url 'accounts:mypage' %}">내 정보</a>
+                    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+                </div>
+            </div>
+
     <!-- 본문 -->
-    <form method="POST" action="{% url 'accounts:update_myportfolio' %}" enctype="multipart/form-data">
-    {% csrf_token %}
-    이름: <input type="text" value="{{ myportfolio.name }}" name="name" id="name"><br>
-    전문 분야:
-    {% for role in myportfolio.role.all %}
-    {{ role.name }}
-    {% endfor %}
-    <select name="role">
-        {% for role in roles %}
-        <option value="{{ role.id }}">{{ role.name }}</option>
-        {% endfor %}
-    </select><br>
-    {% if myportfolio.profile_photo %}
-    기존 이미지 : <img width="320" height="240" src="{{ myportfolio.profile_photo.url }}"><br><br>
-    {% endif %}
-    이미지 변경 - <input type="file" name="profile_photo"><br>
+    <div class="main-content">
+                <form id="portfolioForm" method="POST" action="{% url 'accounts:update_myportfolio' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="profile-container">
+                        <input type="submit" id="fixedbtn" value="포트폴리오 수정"/>
+                        <section class="myProfile">
+                            <div id="myPhoto">
+                                {% if user.mypage_image %}
+                                    <img src="{% static 'images/profile.png' %}">
+                                {% else %}
+                                    <div class="profile"><img class="photo" src="{% static 'images/profile.png' %}"  alt="프로필 사진"></div>
+                                {% endif %}
+                            </div>
+                            
 
-    이메일: <input type="text" value="{{ myportfolio.email }}" name="email" id="email"><br>
-    한줄 소개: <input type="text" value="{{ myportfolio.one_line }}" name="one_line" id="one_line"><br>
-    소개 글: <input type="text" value="{{ myportfolio.intro }}" name="intro" id="intro"><br>
-    <input type="submit" value="수정 완료" />
-    </form>
-    <hr>
-    경력사항<br>
-    <table>
-        <thead>
-            <tr>
-                <th>경력</th>
-                <th>역할</th>
-                <th>연도</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% csrf_token %}
-            {% for career in careers %}
-            <tr>
-                <td>{{ career.career_title }}</td>
-                <td>{{ career.career_role }}</td>
-                <td>{{ career.career_year }}</td>
-                <td>
-                    <a href="{% url 'accounts:delete_my_career' career.id %}">빼기</a>
-                </td>
-            </tr>
-            {% endfor %}
-            <form method="POST" action="{% url 'accounts:create_my_career' %}">
-                {% csrf_token %}
-                <tr>
-                    <td><input type="text" name="career_title"></td>
-                    <td><input type="text" name="career_role"></td>
-                    <td><input type="text" name="career_year"></td>
-                </tr>
-                <input type="submit" value="추가">
-            </form>
-        </tbody>
-    </table>
+                            <!--[+]버튼 클릭 시 파일 선택 실행 -->
+                            <input type="file" name="profile_photo" style="display: none" />
+                            <img
+                            id="add"
+                            src="{% static 'icons/add.png' %}"
+                            onclick="document.all.profile_photo.click()"
+                            ;
+                            />
+                        </section>
+              
+                        <div class="fix-area">
+                            <div class="detail-name">
+                                <div class="optioncontainer">
+                                    <label for="options" id="option">전문 분야 :</label>
+                                    <select id="options" name="role">
+                                        {% for role in roles %}
+                                            <option value="{{ role.id }}">{{ role.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <h1> | </h1> 
+                                <input type="text" value="{{ myportfolio.name }}" placeholder="이름을 입력해 주세요." id ="input_name" name="name">
+                            </div>
+                            <input type="text" value="{{ myportfolio.one_line }}" placeholder="한 줄 소개" id ="input_intro" name="one_line">
+                            <div class="email">
+                                <h5>E-mail |  <input type="text" value="{{ myportfolio.email }}" placeholder="이메일 입력" id ="input_e-mail" name="email"> </h5>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>소개 글</h3>
+                    <input type="text" id="Textarea" value="{{ myportfolio.intro }}" placeholder="자기 소개 글을 입력해 주세요!" name="intro" rows="4" cols="50" maxlength="500"/>
+                </form>
 
-    <hr>
-    <a href="{% url 'accounts:create_my_video' %}">영상</a><br>
-    {% if posts %}
-        {% for post in posts %}
-            {% if post.video %}
-            <video width="320" height="240" controls>
-                <source src="{{ post.video.url }}" type="video/mp4">
-            </video>
-            <a href="{% url 'accounts:update_my_video' post.id %}">수정</a>
-            <a href="{% url 'accounts:delete_my_video' post.id %}">삭제</a>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="all">
+            <div class="careersection">
+                <h3>경력</h3>
+            </div>
+            <hr>
+            <div class="career">
+                <table>
+                    <thead>
+                    <tr>
+                        <th class="section"></th>
+                        <th class="section">작품명</th>
+                        <th class="section">역할</th>
+                        <th class="section">연도</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% csrf_token %}
+                    {% for career in careers %}
+                    <tr>
+                        <td class="icon-cell"><a href="{% url 'accounts:delete_my_career' career.id %}"><img src="../static/icons/- 2.svg"></a></td>
+                        <td>{{ career.career_title }}</td>
+                        <td>{{ career.career_role }}</td>
+                        <td>{{ career.career_year }}</td>
+                    </tr>
+                    {% endfor %}
+                    <form method="POST" action="{% url 'accounts:create_my_career' %}">
+                        {% csrf_token %}
+                    <tr>
+                    <div class="plusarea">
+                        <input type="text" placeholder="작품명" id="sec1" name="career_title">
+                        <input type="text" placeholder="역할" id="sec2" name="career_role">
+                        <input type="text" placeholder="연도" id="sec3" name="career_year">
+                    </div>
+                    </tr>
+                    <input type="submit" value="추가">
+                </form>
+                </table>
+            </div>
+            <hr>
+            
+            <hr>
+            <div class="rep">
+                <h3>대표작</h3>
+                <div class="plus">
+                    <a href="{% url 'accounts:create_my_video' %}"><img src="../static/icons/+ 2.svg"></a>
+                </div>
+            </div>
+            <div class="video-container">
+
+                    <div class="videocontrol">
+                        {% if posts %}
+                            {% for post in posts %}
+                                {% if post.video %}
+                        <video width="430" height="270" controls>
+                            <a href="{% url 'accounts:update_my_video' post.id %}">
+                            <source src="{{ post.video.url }}" type="video/mp4" id="video">
+                            </a>
+                            해당 브라우저에서는 영상 재생을 제공하지 않습니다.
+                        </video>
+                        <div class="fixbtn-area">
+                            <div class="minus">
+                                <a href="{% url 'accounts:delete_my_video' post.id %}"><img src="../static/icons/- 2.svg"></a>
+                            </div>
+                            <button class="rebtn" onclick="navigateToEdit()">수정하기</button>
+                        </div>
+                             {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                  </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+<div class="sidebar"></div>
+
+<script>
+function navigateToEdit() {
+window.location.href = "../Herethon_16_FE/templates/edit/edit.html";
+}
+
+<!-- 수정 완료 -->
+</script>
+
 </body>
 </html>

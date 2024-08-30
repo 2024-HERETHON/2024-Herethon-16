@@ -1,17 +1,43 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <h2>회원가입</h2>
-    <!-- 나중에 accounts:signup으로 -->
-    <form method="post" action="{% url 'accounts:signup' %}">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">회원가입</button>
-    </form>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>회원가입</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/sign_up.css' %}" />
+</head>
+<body>
+  <div class="header">
+    <div class="logofield">
+      <img src="{% static 'images/logo_white.svg' %}" alt="로고">
+      <h1>회원가입</h1>
+    </div>
+    <div class="film"><img src="{% static 'images/film.svg' %}" alt="필름"></div>
+  </div>
+
+  <div class="main">
+    <h2>새로운 영화 세계에 오신 것을 환영합니다! <br> 지금 가입하고 나만의 영화 여정을 시작하세요.</h2>
+    <div class="enterfield">
+      <form method="post" action="{% url 'accounts:signup' %}">
+        {% csrf_token %}
+        <h4>이름</h4> 
+        <input type="text" name="nickname" placeholder="이름을 입력해 주세요." id="nickname">
+        <h4>아이디</h4> 
+        <input type="text" name="username" placeholder="아이디를 입력해 주세요." id="username">
+        <h4>이메일</h4>
+        <input type="email" name="email" placeholder="이메일을 입력해 주세요." id="email">
+        <h4>비밀번호</h4> 
+        <h6>8자 이상 30자 이하, 숫자, 특수기호가 포함되어야 합니다.</h6>
+        <div class="pwfield">
+          <input type="password" name="password1" placeholder="비밀번호를 입력해 주세요." id="password1">
+          <input type="password" name="password2" placeholder="비밀번호를 다시 입력해 주세요." id="password2">
+        </div>
+        <div class="changebtn">
+          <button id="submit" type="submit">회원가입</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
 </html>

@@ -1,0 +1,240 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pretendard-ExtraBold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+
+/* 기본 스타일 설정 */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+}
+.wrapper {
+    display: flex;
+    width: 100%;
+}
+.sidebar {
+    background-image: url('../images/side.png');
+    background-size: cover;
+    width: 300px;
+    min-height: 100vh;
+}
+.container {
+    width: 1080px;
+    margin: 0 15px;
+    padding: 70px 0;
+    flex: 1;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header img { /* 로고 */
+    width: 274px;
+    height: 39.36px;
+}
+.nav-links {
+    display: flex;
+    gap: 20px; /* 간격 조절 */
+    margin-right: 20px;
+}
+
+.nav-links a { /* 하이퍼 링크 */
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+    position: relative; /* ::after 가상 요소를 배치하기 위한 상대 위치 설정 */
+}
+
+.nav-links a::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2.6px;
+    background-color: #4EDD3A;
+    position: absolute;
+    bottom: -6px; /* 텍스트 아래에 배치 */
+    left: 0;
+    transition: opacity 0.3s;
+    opacity: 1; /* 기본 상태에서 보이도록 설정 */
+}
+
+.search-container { /* 검색 컨테이너 */
+    width: 446px;
+    justify-content: row; 
+    background-color: #D9D9D9;
+    padding-left: 5px; 
+    border: none;
+    border-radius: 10px;
+    line-height: 50%;
+}
+
+.search-container input[type="image"] {
+    width: 20px; 
+    height: 20px; 
+    padding-top: 10px;
+} 
+
+.search-container input[type="text"] { /* 검색창 */
+    width: 200px;
+    height: 25px;
+    background-color: #D9D9D9;
+    padding: 5px;
+    border: none;
+    border-radius: 10px;
+    line-height: 50%;
+}
+
+.main-content {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.main-content .profile-container {
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    background-image: url('../images/profileback.png');
+    width: 1130px;
+    height: 300px; 
+    margin-top: 70px;
+    margin-left: -35px;
+}
+
+.portfolio-detail {
+    display: flex;
+    align-items: center;
+    width: auto;
+    margin: 0;
+}
+
+.profile {
+    width: 200px;
+    height: 200px;
+    border-radius: 70%;
+    overflow: hidden;
+    border: 5px solid #17B001;
+}
+
+.photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.detail-name {
+    position: relative;
+    text-align: center;
+    margin-left: 200px;
+}
+
+.detail-name h1 {
+    font-size: 40px;
+    font-family: 'Pretendard-ExtraBold';
+}
+
+.detail-name h4 {
+    font-size: 20px;
+}
+
+.detail-name h5 {
+    font-size: 13px;
+    font-family: 'Pretendard-ExtraBold';
+    margin-top: 10px;
+}
+
+.content hr {
+    border: none;
+    height: 4px;
+    background: linear-gradient(to left, #1A6010, #B3FBA9);
+}
+
+.content {
+    max-width: 1200px;
+    margin-top: 30px;
+    padding: 20px;
+}
+
+.content h3 {
+    font-size: 22px;
+    font-family: 'Pretendard-ExtraBold';
+}
+
+.career {
+    display: flex;
+    align-items: center;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+th {
+    font-size: 18px;
+    font-family: 'Pretendard-ExtraBold';
+    margin-bottom: 30px; 
+    margin-top: 20px;   
+    padding: 15px;
+    text-align: left;
+}
+
+td {
+    padding: 15px;
+    text-align: left;
+    vertical-align: top; 
+    border-bottom: 1px solid #ddd; 
+}
+
+
+.container h6 {
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+.video-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+.video-container a {
+    text-decoration: none;
+    font-size: 20px;
+    font-family: 'Pretendard-ExtraBold';
+    color: black;
+}
+
+.video-container a:hover {
+    cursor: pointer;
+    color: #17B001;
+}
+
+.video {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.video video {
+    margin: 20px;
+}
